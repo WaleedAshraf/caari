@@ -1,14 +1,33 @@
 # Description:
-#   Example scripts for you to examine and try out.
+#   Which is Better?
 #
-# Notes:
-#   They are commented out by default, because most of them are pretty silly and
-#   wouldn't be useful and amusing enough for day to day huboting.
-#   Uncomment the ones you want to try and experiment with.
+# Dependencies:
+#   None
 #
-#   These are from the scripting documentation: https://github.com/github/hubot/blob/master/docs/scripting.md
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot which <text> (better|worse)[?,] <text> or <text>? #polls
+#   hubot who <text> (better|worse)[?,] <text> or <text>? #polls
+#
+# Author:
+#   cpradio
 
 module.exports = (robot) ->
+
+uhh_what = [
+  "I could tell you, but then I'd have to kill you",
+  "Answering that would be a matter of national security",
+  "You can't possibly compare them!",
+  "Both hold a special place in my heart"
+]
+  robot.respond /(which|who) (.*) (better|worse)(?:\?*|,?) (.*) or (.*?)\??$/i, (msg) ->
+    choosen_response = msg.random [1..5]
+    if choosen_response >= 3
+      msg.send msg.random uhh_what
+    else
+      msg.send "Clearly #{msg.match[choosen_response + 3]} #{msg.match[2]} #{msg.match[3]}"
 
   # robot.hear /badger/i, (res) ->
   #   res.send "Badgers? BADGERS? WE DON'T NEED NO STINKIN BADGERS"
