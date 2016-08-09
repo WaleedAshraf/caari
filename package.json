@@ -5,6 +5,7 @@
   "author": "Waleed Ashraf <waleedashraf@outlook.com>",
   "description": "A bot for developers!",
   "dependencies": {
+    "@moqada/hubot-schedule-helper": "^1.0.0",
     "hubot": "^2.19.0",
     "hubot-arm": "^0.2.1",
     "hubot-diagnostics": "0.0.1",
@@ -19,8 +20,7 @@
     "hubot-rules": "^0.1.1",
     "hubot-scripts": "^2.17.2",
     "hubot-shipit": "^0.2.0",
-    "hubot-slack": "^4.0.2",
-    "request": "^2.74.0"
+    "hubot-slack": "^4.0.2"
   },
   "engines": {
     "node": "0.10.x"
