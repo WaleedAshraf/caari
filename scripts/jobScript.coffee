@@ -16,19 +16,29 @@ class HTTPJob extends Job
   exec: (robot) ->
     envelope = @getEnvelope()
     {message} = @meta
+    statsGit = process.env.STATS_GITHUB
+    statsPlan = process.env.STATS_PLANIO
+
+    second = (message,msg) ->
+      monthmsg = robot.http(statsGit)
+          .get() (err, res, body) ->
+            if err
+              msgt = "Github Error: #{err}"
+            else
+              msgt = "Github Status: #{res.statusCode}"
+            finalmsg = "```JobTitle: #{message}\n#{msg}\n#{msgt} ```"
+            robot.send envelope, finalmsg
 
     if message is 'STAT JOB'
-      robot.http('https://1.bp.blogspot.com/-KW_LAtRAInM/V5ewsH7E-rI/AAAAAAAABSI/rh6uyGJj-u4DYAS4gzHGpGwq6pDw1a-aQCLcB/w800-h800/photo.jpg')
+      robot.http(statsPlan)
       .get() (err, res, body) ->
         if err
-          msg = "#{message}: #{err}"
+          msg = "PlanIO Error: #{err}"
         else
-          msg = "#{message}: #{res.statusCode}"
-        robot.send envelope, msg
+          msg = "PlanIO Status: #{res.statusCode}"
+        second(message, msg)
     else
-      robot.send envelope, message
-
-
+      robot.send envelope, message 
 
 module.exports = (robot) ->
   scheduler = new Scheduler({robot, storeKey, job: HTTPJob})
