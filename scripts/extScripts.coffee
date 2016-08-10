@@ -19,7 +19,7 @@ module.exports = (robot) ->
 	    msg.send "Take some rest!"
 
 	robot.hear /.lol|lol|.lols|lols|haha|hahaha|lmao|funny|.funny/i, (msg) ->
-	    msg.send "Take some rest!"
+	    msg.send "lols"
 
 	robot.respond /hello|hi|hy/i, (msg) ->
 		msg.send "Hello"
