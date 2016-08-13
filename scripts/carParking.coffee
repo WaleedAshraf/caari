@@ -22,45 +22,54 @@ module.exports = (robot) ->
 	data = robot.brain.data
 
 	robot.respond /car add (.+)$/i, (msg) ->
-		carNo = msg.match[1].trim();
-		user = msg.message.user.name
-		console.log "Starting car add: #{carNo}"
-		try
-			if(data.car)
-				data.car["#{carNo}"] = user
-			else
-				data.car = {}
-				data.car["#{carNo}"] = user
-		catch err
-			return msg.send err
-		msg.send "Car Added!"
+		carNo = msg.match[1].trim()
+		if(!/\D/.test(carNo))
+			user = msg.message.user.name
+			console.log "Starting car add: #{carNo}"
+			try
+				if(data.car)
+					data.car["#{carNo}"] = user
+				else
+					data.car = {}
+					data.car["#{carNo}"] = user
+			catch err
+				return msg.send err
+			msg.send "Car Added!"
+		else
+			return msg.send "Please only use NUMERIC part of car number!"
 
 	robot.respond /car remove (.+)$/i, (msg) ->
-		carNo = msg.match[1].trim();
-		console.log "Starting car remove: #{carNo}"
-		try
-			delete data.car["#{carNo}"] if data.car["#{carNo}"]?
-		catch err
-			return msg.send err
-		msg.send "Car removed!"
+		carNo = msg.match[1].trim()
+		if(!/\D/.test(carNo))
+			console.log "Starting car remove: #{carNo}"
+			try
+				delete data.car["#{carNo}"] if data.car["#{carNo}"]?
+			catch err
+				return msg.send err
+			msg.send "Car removed!"
+		else
+			return msg.send "Please only use NUMERIC part of car number!"
 
 	robot.respond /car list$/i, (msg) ->
 		cars = []
 		for car,owner of data.car
-		  cars.push "#{car}: #{owner}"
+		  cars.push "#{car}: #{owner}Car"
 		if cars.length > 0
 		  return msg.send cars.join '\n'
 		msg.send 'No Cars'
 
 	robot.respond /car find (.+)$/i, (msg) ->
-		carNo = msg.match[1].trim();
-		user = msg.message.user.name
-		console.log "Finding car: #{carNo}"
-		try
-			if(data.car["#{carNo}"])
-				owner = data.car["#{carNo}"]
-				return msg.send "@#{owner} please visit car parking. #{user} is looking for you."
-			else
-				return msg.send "No car found with this number! Try again with only numeric part."
-		catch err
-			return msg.send err
+		carNo = msg.match[1].trim()
+		if(!/\D/.test(carNo))
+			user = msg.message.user.name
+			console.log "Finding car: #{carNo}"
+			try
+				if(data.car["#{carNo}"])
+					owner = data.car["#{carNo}"]
+					return msg.send "@#{owner} please visit car parking. #{user} is looking for you."
+				else
+					return msg.send "No car found with this number! Try using caari car list method."
+			catch err
+				return msg.send err
+		else
+			return msg.send "Please only use NUMERIC part of car number!"
