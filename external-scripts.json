@@ -7,5 +7,5 @@
   "hubot-maps",
   "hubot-redis-brain",
   "hubot-rules",
-  "hubot-seen"
+  "hubot-brain-inspect"
 ]
