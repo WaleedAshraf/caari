@@ -9,6 +9,9 @@
 #
 # Commands:
 #   hubot thank - mention not
+#
+# Author:
+#   Waleed Ashraf
 
 uhh_what = [
 	"I could tell you, but then I'd have to kill you",
@@ -31,23 +34,23 @@ module.exports = (robot) ->
 	robot.respond /hello|hi|hy/i, (msg) ->
 		msg.send "Hello"
 
-	robot.respond /channel add (.+)/i, (msg) ->
+	robot.respond /channel add (.+)$/i, (msg) ->
 		channelName = msg.match[1]
 		channelID = msg.message.room
 		console.log "Starting channel add: #{channelID} : #{channelName}"
 		try
 		  robot.brain.set channelID, channelName
 		catch err
-		  msg.send err
+		  return msg.send err
 		msg.send "Channel Added!"
 
-	robot.respond /channel remove (.+)/i, (msg) ->
+	robot.respond /channel remove (.+)$/i, (msg) ->
 		channelID = msg.match[1]
 		console.log "Starting channel remove: #{channelID}"
 		try
 		  robot.brain.remove channelID
 		catch err
-		  msg.send err
+		  return msg.send err
 		msg.send "Channel Removed!"
 
 	robot.respond /.how are you|.how you doing|.whats up/i, (msg) ->
