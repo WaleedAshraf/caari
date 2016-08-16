@@ -22,13 +22,13 @@ uhh_what = [
 
 module.exports = (robot) ->
 
-	robot.hear /thank/i, (msg) ->
+	robot.respond /thank/i, (msg) ->
 		msg.reply "Mention not :)"
 
-	robot.hear /tired|too hard|to hard|upset|bored/i, (msg) ->
+	robot.respond /tired|too hard|to hard|upset|bored/i, (msg) ->
 	    msg.send "Take some rest!"
 
-	robot.hear /.lol|lol|.lols|lols|haha|hahaha|lmao|funny|.funny/i, (msg) ->
+	robot.respond /.lol|lol|.lols|lols|haha|hahaha|lmao|funny|.funny/i, (msg) ->
 	    msg.send "lols"
 
 	robot.respond /hello|hi|hy/i, (msg) ->
