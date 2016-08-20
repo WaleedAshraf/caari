@@ -20,6 +20,8 @@ uhh_what = [
 	"Both hold a special place in my heart"
 	]
 
+adminUser = process.env.ADMIN_USER
+
 module.exports = (robot) ->
 
 	robot.respond /thank/i, (msg) ->
@@ -74,3 +76,16 @@ module.exports = (robot) ->
 		  msg.send msg.random uhh_what
 		else
 		  msg.send "Clearly #{msg.match[choosen_response + 2]} is #{msg.match[2]}"
+
+	robot.respond /delete obj (.+)/i, (msg) ->
+		obj = msg.match[1]
+		user = msg.message.user.name
+		if user is adminUser
+			try
+				delete robot.brain.data["#{obj}"]
+				return msg.send "#{obj} removed"
+			catch err
+				return msg.send err
+		else
+		  msg.send "You are not authorized!"
+
