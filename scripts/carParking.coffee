@@ -21,20 +21,23 @@ module.exports = (robot) ->
 
 	data = robot.brain.data
 
-	robot.respond /car add (.+)$/i, (msg) ->
+	robot.respond /car add (.+?[0-9]) (.+?) (.+)/i, (msg) ->
 		carNo = msg.match[1].trim()
+		userName = msg.match[2].trim()
+		fullName = msg.match[3].trim()
+		console.log "carNo: #{carNo}"
+		console.log "username: #{userName}"
+		console.log "fullname: #{fullName}"
 		if(!/\D/.test(carNo))
 			user = msg.message.user.name
 			console.log "Starting car add: #{carNo}"
 			try
-				if(data.car)
-					data.car["#{carNo}"] = user
-				else
+				if(!data.car)
 					data.car = {}
-					data.car["#{carNo}"] = user
+				data.car["#{carNo}"] = {userName:userName, fullname:fullName, des:""}
 			catch err
 				return msg.send err
-			msg.send "Car Added!"
+			msg.send "Car Added: #{carNo} : #{userName} : #{fullName}"
 		else
 			return msg.send "Please only use NUMERIC part of car number!"
 
