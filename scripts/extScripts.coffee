@@ -27,9 +27,6 @@ module.exports = (robot) ->
 	robot.respond /thank/i, (msg) ->
 		msg.reply "Mention not :)"
 
-	robot.respond /wish birthday/i, (msg) ->
-		msg.send "HAPPY BIRTHDAY UMAR bhai and JUNAID bhai, Stay blessed! :birthday: :cake: :birthday: :D :) "
-
 	robot.respond /tired|too hard|to hard|upset|bored/i, (msg) ->
 	    msg.send "Take some rest!"
 
