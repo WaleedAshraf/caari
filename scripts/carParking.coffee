@@ -22,8 +22,12 @@ module.exports = (robot) ->
 
 	data = robot.brain.data
 
-	robot.respond /car add (.+?[0-9])$/i, (msg) ->
-		msg.send "Please use command: caari car add <number> <description>"
+	robot.respond /car add (.+)$/i, (msg) ->
+		carNo = msg.match[1].trim()
+		if(!/\s/.test(carNo))
+			msg.send "Please use command: caari car add <number> <description>"
+		else
+			return
 		
 	robot.respond /car add (.+) (.+)/i, (msg) ->
 		carNo = msg.match[1].trim()
