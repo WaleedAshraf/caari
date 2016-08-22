@@ -22,17 +22,18 @@ module.exports = (robot) ->
 
 	data = robot.brain.data
 
-	robot.respond /car add (.+)/i, (msg) ->
+	robot.respond /car add (.+?[0-9])$/i, (msg) ->
 		msg.send "Please use command: caari car add <number> <description>"
-
-	robot.respond /car add (.+?[0-9]) (.+)/i, (msg) ->
+		
+	robot.respond /car add (.+) (.+)/i, (msg) ->
 		carNo = msg.match[1].trim()
 		userName = msg.message.user.name
 		fullName = msg.message.user.real_name
 		des = msg.match[2].trim()
-		if(data.car["#{carNo}"])
-			return msg.send "Car #{carNo} already exist!"
+		
 		if(!/\D/.test(carNo))
+			if(data.car["#{carNo}"])
+				return msg.send "Car #{carNo} already exist!"
 			try
 				if(!data.car)
 					data.car = {}
