@@ -11,6 +11,7 @@
 #	hubot car - For ease ONLY USE NUMERIC part of car number in all commands!
 #   hubot car find <number> - Send message to owner of the car to visit parking.
 #   hubot car add <number> <description> - Car with <number> will be added in the list against <user> name who run commnad.
+#	hubot car update <number> <description> - Will update description of car mentioned.
 #   hubot car remove <number> - Car with <number> will be removed from the list.
 #   hubot car list - List all the cars.
 #
@@ -52,12 +53,13 @@ module.exports = (robot) ->
 
 	robot.respond /car list$/i, (msg) ->
 		cars = []
+		cars.push "```Number	| Owner		| Description```"
 		for car of data.car
 		  carNo = car
 		  userName = data.car["#{carNo}"].userName
 		  fullName = data.car["#{carNo}"].fullname
 		  des = data.car["#{carNo}"].des
-		  cars.push "#{carNo}: #{fullName}: #{des}"
+		  cars.push "#{carNo}	| #{fullName}		| #{des}"
 		if cars.length > 0
 		  return msg.send cars.join '\n'
 		msg.send 'No Cars'
