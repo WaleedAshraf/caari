@@ -29,7 +29,7 @@ module.exports = (robot) ->
 		else
 			return
 		
-	robot.respond /car add (.+) (.+)/i, (msg) ->
+	robot.respond /car add (.+?[0-9]) (.+)/i, (msg) ->
 		carNo = msg.match[1].trim()
 		userName = msg.message.user.name
 		fullName = msg.message.user.real_name
