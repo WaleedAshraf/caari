@@ -10,6 +10,7 @@
     "hubot-arm": "^0.2.1",
     "hubot-brain-inspect": "0.0.1",
     "hubot-diagnostics": "0.0.1",
+    "hubot-double-parking": "1.0.2",
     "hubot-google-translate": "^0.2.0",
     "hubot-help": "^0.2.0",
     "hubot-heroku-keepalive": "^1.0.2",
