@@ -7,5 +7,6 @@
   "hubot-maps",
   "hubot-redis-brain",
   "hubot-rules",
-  "hubot-brain-inspect"
+  "hubot-brain-inspect",
+  "hubot-double-parking"
 ]
