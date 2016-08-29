@@ -25,9 +25,6 @@ leaveForm = process.env.LEAVE_FORM
 
 module.exports = (robot) ->
 
-	robot.respond /leave form|wfh form/i, (msg) ->
-		msg.reply leaveForm
-
 	robot.respond /thank/i, (msg) ->
 		msg.reply "Mention not :)"
 
