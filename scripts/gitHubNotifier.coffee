@@ -8,7 +8,7 @@ module.exports = (robot) ->
 		pusher = data.pusher
 		repoName = process.env.REPO_NAME
 		channelName = process.env.GH_CHANNEL_NAME
-		barnch = process.env.GH_BRANCH_NAME
+		branch = process.env.GH_BRANCH_NAME
 
 		if (repo.name.indexOf(repo.name) != -1 && data.ref == "refs/heads/#{branch}")
 			for channel in channelName
