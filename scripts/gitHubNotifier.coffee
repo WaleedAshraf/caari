@@ -12,6 +12,10 @@ module.exports = (robot) ->
 
 		if (repoName.indexOf(repo.name) != -1 && data.ref == "refs/heads/#{branch}")
 			for channel in channelName
-				robot.messageRoom channel, "New Commit \"#{head_commit.message}\" on Branch #{branch} to #{repo.full_name} by #{pusher.name}: #{head_commit.url}"
+				robot.messageRoom channel, "```
+				New Commit: \"#{head_commit.message}\" \n
+				Branch: #{branch}		To: #{repo.full_name}\n
+				By #{pusher.name}\n
+				Link: #{head_commit.url}```"
 				console.log "GH message sent #{head_commit.message} in channel #{channel}"
 		res.send(200)
