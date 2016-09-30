@@ -21,14 +21,9 @@ cagChannel = process.env.CAG_CHANNEL
 
 module.exports = (robot) ->
 
-  robot.hear /work from home|working from home|on leave|half leave/i, (msg)->
-    if msg.message.room == testChannel || cagChannel
+  robot.hear /work from home|working from home|on leave|half leave|work fh|wfh/i, (msg)->
+    if msg.message.room == testChannel || msg.message.room == cagChannel
       msg.reply "please fill this form as well " + leaveForm
-    
 
   robot.respond /leave form|wfh form/i, (msg) ->
     msg.reply leaveForm
-
- 
-
-    
