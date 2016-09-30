@@ -24,11 +24,4 @@ module.exports = (robot) ->
   		#selecting any number of words after a space
   		personal_message = custom.match(/\s(.*)/)[1].toString()
   		robot.messageRoom room_id,personal_message
-  		
-  	
-  	
-    	
-
- 
-
-    
+      
