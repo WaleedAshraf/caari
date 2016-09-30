@@ -10,6 +10,17 @@
 
 storeKey = 'hubot-schedule-helper-HTTPJob:schedule'
 
+today = (add) ->
+  day = new Date  
+  dd = day.getDate();
+  dd = dd + add
+  mm = day.getMonth() + 1  
+  yyyy = day.getFullYear()  
+  if dd < 10  
+    dd = '0' + dd  
+  if mm < 10  
+    mm = '0' + mm  
+  day = dd + '/' + mm + '/' + yyyy 
 
 class HTTPJob extends Job
 
@@ -18,6 +29,9 @@ class HTTPJob extends Job
     {message} = @meta
     statsGit = process.env.STATS_GITHUB
     statsPlan = process.env.STATS_PLANIO
+    lunch = process.env.LUNCH
+    commonRoom = process.env.COMMON_ROOM
+    data = robot.brain.data
 
     second = (message,msg) ->
       monthmsg = robot.http(statsGit)
@@ -38,7 +52,41 @@ class HTTPJob extends Job
           msg = "PlanIO Status: #{res.statusCode}"
         second(message, msg)
     else
-      robot.send envelope, message 
+      robot.send envelope, message
+
+    if message is 'LUNCH JOB'
+      date = today(0);
+      menu = robot.http(lunch + date)
+        .get() (err, res, resBody) ->       
+            if err
+              data.lunchToday = "Lunch Error: #{err}"
+            else
+              try
+                body = JSON.parse resBody
+              catch err
+                body = resBody
+              data.lunchToday = body
+
+      date = today(1);
+      menu = robot.http(lunch + date)
+        .get() (err, res, resBody) ->       
+            if err
+              data.lunchTomorrow = "Lunch Error: #{err}"
+            else
+              try
+                body = JSON.parse resBody
+              catch err
+                body = resBody
+              data.lunchTomorrow = body
+      robot.send envelope, "lunch updated"
+
+    if message is 'TODAY LUNCH'
+      body = data.lunchToday
+      try
+        lunchMsg = "@here Lunch Today```New Main Dish:#{body.New.MainDish}\nNew Sec Dish:#{body.New.SecondaryDish}\nNew Dessert:#{body.New.Dessert}\n\nOld Main Dish:#{body.Old.MainDish}\nOld Sec Dish:#{body.Old.SecondaryDish}\nOld Dessert:#{body.Old.Dessert}```"
+      catch
+        lunchMsg = body
+      robot.messageRoom commonRoom,lunchMsg
 
 module.exports = (robot) ->
   scheduler = new Scheduler({robot, storeKey, job: HTTPJob})
