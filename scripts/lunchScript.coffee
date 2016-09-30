@@ -35,7 +35,10 @@ module.exports = (robot) ->
 					if err
 						lunchMsg = "Lunch Error: #{err}"
 					else
-						body = JSON.parse resBody
+						try
+    						body = JSON.parse resBody
+    					catch err
+    						return msg.send resBody
 						lunchMsg = "```New Main Dish:#{body.New.MainDish}\nNew Sec Dish:#{body.New.SecondaryDish}\nNew Dessert:#{body.New.Dessert}\n\nOld Main Dish:#{body.Old.MainDish}\nOld Sec Dish:#{body.Old.SecondaryDish}\nOld Dessert:#{body.Old.Dessert}```"
 					msg.send lunchMsg
 
@@ -47,6 +50,10 @@ module.exports = (robot) ->
 				if err
 					lunchMsg = "Lunch Error: #{err}"
 				else
+					try
+						body = JSON.parse resBody
+					catch err
+						return msg.send resBody
 					body = JSON.parse resBody
 					lunchMsg = "```New Main Dish:#{body.New.MainDish}\nNew Sec Dish:#{body.New.SecondaryDish}\nNew Dessert:#{body.New.Dessert}\n\nOld Main Dish:#{body.Old.MainDish}\nOld Sec Dish:#{body.Old.SecondaryDish}\nOld Dessert:#{body.Old.Dessert}```"
 				msg.send lunchMsg
