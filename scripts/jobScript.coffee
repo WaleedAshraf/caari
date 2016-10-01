@@ -80,10 +80,10 @@ class HTTPJob extends Job
               data.lunchTomorrow = body
       robot.send envelope, "lunch updated"
 
-    if message is 'TODAY LUNCH'
+    if message is 'LUNCH TODAY'
       body = data.lunchToday
       try
-        lunchMsg = "```New\nMain Dish:#{body.New.MainDish}\nSec Dish:#{body.New.SecondaryDish}\nDessert:#{body.New.Dessert}\n\nOld\nMain Dish:#{body.Old.MainDish}\nSec Dish:#{body.Old.SecondaryDish}\nDessert:#{body.Old.Dessert}```"
+        lunchMsg = "@Here Lunch Today\n```New:#{body.New.Title}\nMain Dish:#{body.New.MainDish}\nSec Dish:#{body.New.SecondaryDish}\nDessert:#{body.New.Dessert}\n\nOld:#{body.Old.Title}\nMain Dish:#{body.Old.MainDish}\nSec Dish:#{body.Old.SecondaryDish}\nDessert:#{body.Old.Dessert}```"
       catch
         lunchMsg = body
       robot.messageRoom commonRoom,lunchMsg
