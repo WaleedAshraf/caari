@@ -47,8 +47,10 @@ module.exports = (robot) ->
 		headMessage = head_commit.message.replace(/\r?\n|\r/g,"")
 		mailCheck = headMessage.indexOf("hotfix");
 		color = "warning"
+		title = "PR Merge Alert"
 		if(mailCheck != -1)
 			color = "danger"
+			title = "Hotfix Merge Alert"
 
 		if (repoName.indexOf(repo.name) != -1 && data.ref == "refs/heads/#{branch}")
 			for channel in channelName
@@ -57,7 +59,7 @@ module.exports = (robot) ->
 					        {
 					            "color": color,
 					            "author_name": "caari",					    
-					            "title": "PR Merge Alert",
+					            "title": title,
 					            "text": headMessage,
 					            "fields": [
 					            	{
