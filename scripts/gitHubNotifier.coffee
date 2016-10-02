@@ -87,8 +87,9 @@ module.exports = (robot) ->
 					    ]
 					}
 				if(mailCheck != -1)
-					mailMsg = 'New Commit: ' + head_commit.message + "\n" + 'Branch: ' + branch + "\n" + 'To: ' + repo.full_name + "\n" + 'By: ' + pusher.name + "\n" + 'Link: ' + head_commit.url
+					mailMsg = 'New Commit: ' + headMessage + "\n" + 'Branch: ' + branch + "\n" + 'To: ' + repo.full_name + "\n" + 'By: ' + pusher.name + "\n" + 'Link: ' + head_commit.url
 					mailSender(mailMsg)
-				robot.messageRoom channel, '@channel \n' + githubMsg
+				robot.messageRoom channel, "@channel \n"
+				robot.messageRoom channel, githubMsg
 				console.log "GH message sent #{head_commit.message} in channel #{channel}"
 		res.send(200)
