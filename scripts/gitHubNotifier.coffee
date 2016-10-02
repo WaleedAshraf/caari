@@ -15,6 +15,24 @@
 # Author:
 #   Waleed Ashraf
 
+api_key = process.env.MAILGUN_KEY
+domain = process.env.MAILGUN_DOMAIN
+fromUser = process.env.FROM_USER
+toUser = process.env.TO_USER
+subject = process.env.SUBJECT
+mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
+
+
+mailSender = (message) ->
+	data = 
+	  from: fromUser
+	  to: toUser
+	  subject: subject
+	  text: message
+	mailgun.messages().send data, (error, body) ->
+	  console.log body
+	  return
+
 module.exports = (robot) ->
 	robot.router.post "/caari/gh-repo-event", (req, res) ->
 		data = req.body
@@ -26,9 +44,49 @@ module.exports = (robot) ->
 		repoName = process.env.REPO_NAME.split(",")
 		channelName = process.env.GH_CHANNEL_NAME.split(",")
 		branch = process.env.GH_BRANCH_NAME
+		headMessage = head_commit.message.replace(/\r?\n|\r/g,"")
+		mailCheck = headMessage.indexOf("hotfix");
+		color = "warning"
+		if(mailCheck != -1)
+			color = "danger"
 
 		if (repoName.indexOf(repo.name) != -1 && data.ref == "refs/heads/#{branch}")
 			for channel in channelName
-				robot.messageRoom channel, "@channel ```New Commit: \"#{head_commit.message}\"\nBranch: #{branch}\nTo: #{repo.full_name}\nBy: #{pusher.name} #{head_commit.url}```"
+				githubMsg = {
+					    "attachments": [
+					        {
+					            "color": color,
+					            "author_name": "caari",					    
+					            "title": "PR Merge Alert",
+					            "text": headMessage,
+					            "fields": [
+					            	{
+					                    "title": "Branch",
+					                    "value": branch,
+					                    "short": true
+					                },
+					                {
+					                    "title": "To",
+					                    "value": repo.full_name,
+					                    "short": true
+					                },
+					                {
+					                    "title": "By",
+					                    "value": pusher.name,
+					                    "short": true
+					                },
+					                {
+					                    "title": "Link",
+					                    "value": head_commit.url,
+					                    "short": false
+					                }
+					            ]
+					        }
+					    ]
+					}
+				if(mailCheck != -1)
+					mailMsg = 'New Commit: #{head_commit.message}' + "\n" + 'Branch: #{branch}' + "\n" + 'To: #{repo.full_name}' + "\n" + 'By: #{pusher.name}' + "\n" + 'Link: #{head_commit.url'
+					mailSender(mailMsg)
+				robot.messageRoom channel, githubMsg
 				console.log "GH message sent #{head_commit.message} in channel #{channel}"
 		res.send(200)
