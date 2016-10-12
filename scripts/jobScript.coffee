@@ -10,6 +10,32 @@
 
 storeKey = 'hubot-schedule-helper-HTTPJob:schedule'
 
+food = [
+  "You don't need a silver fork to eat good food.",
+  "Ask not what you can do for your country. Ask what’s for lunch.",
+  "The only time to eat diet food is while you're waiting for the steak to cook.",
+  "Never eat more than you can lift.",
+  "There's no such thing as a free lunch.",
+  "Anyone who has lost track of time when using a computer knows the propensity to dream, the urge to make dreams come true and the tendency to miss lunch.",
+  "12% of employees eat because they are hungry. 88% of employees eat because it is 1 o’clock.",
+  "We must explain the truth: There is no free lunch.",
+  "Spaghetti can be eaten most successfully if you inhale it like a vacuum cleaner.",
+  "The only think I like better than talking about Food is Eating.",
+  "Sandwiches are wonderful. You don't need a spoon or a plate!",
+  "One should eat to live, not live to eat.",
+  "It's okay to eat fish because they don't have any feelings.",
+  "I still eat a burger at a counter with ketchup dripping down my face.",
+  "So long as you have food in your mouth, you have solved all questions for the time being.",
+  "The kitchen is a sacred space.",
+  "If God did not intend for us to eat animals, then why did he make them out of meat?",
+  "Your diet is a bank account. Good food choices are good investments.",
+  "I get way too much happiness from good food.",
+  "I think about food literally all day every day. It's a thing.",
+  "I think I was immediately fed, so food became a very important part of my life.",
+  "Ice cream is my comfort food.",
+  "There is no sincerer love than the love of food!"
+  ]
+
 today = (add) ->
   day = new Date  
   dd = day.getDate();
@@ -82,6 +108,8 @@ class HTTPJob extends Job
 
     if message is 'LUNCH TODAY'
       body = data.lunchToday
+      food_num = Math.floor(Math.random() * (20 - 0 + 1)) + 0
+      food_msg = food[food_num]
       try
         lunchMsg = {
               "attachments": [
@@ -89,7 +117,7 @@ class HTTPJob extends Job
                       "color": "#F35A00",
                       "author_name": "caari",             
                       "title": "Lunch Alert",
-                      "text": "There is no sincerer love than the love of food!",
+                      "text": food_msg,
                       "fields": [
                           {
                               "title":"Old: #{body.Old.Title}",
