@@ -16,6 +16,7 @@
 #   Waleed Ashraf
 
 api_key = process.env.MAILGUN_KEY
+resPusher = process.env.BLOCKED_GH_NOTIF
 domain = process.env.MAILGUN_DOMAIN
 fromUser = process.env.FROM_USER
 toUser = process.env.TO_USER
@@ -52,7 +53,7 @@ module.exports = (robot) ->
 			color = "danger"
 			title = "Hotfix Merge Alert"
 
-		if (repoName.indexOf(repo.name) != -1 && data.ref == "refs/heads/#{branch}")
+		if (repoName.indexOf(repo.name) != -1 && data.ref == "refs/heads/#{branch}" && pusher.name != resPusher )
 			for channel in channelName
 				githubMsg = {
 					    "attachments": [
