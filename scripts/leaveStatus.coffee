@@ -65,7 +65,7 @@ module.exports = (robot) ->
 					else
 						try
 							body = JSON.parse(body)
-							message = 'Full Name ' + body.EmployeeName + "\n" + 'Email: ' + body.EmailID + "\n" + 'Total: ' + body.Total + "\n" + 'Taken: ' + body.Taken + "\n" + 'Balance: ' + body.Balance
+							message = 'Full Name: ' + body.EmployeeName + "\n" + 'Email: ' + body.EmailID + "\n" + 'Total: ' + body.Total + "\n" + 'Taken: ' + body.Taken + "\n" + 'Earned: ' + body.Earned + "\n" +'Balance: ' + body.Balance
 
 							mailSender(message, email)
 						catch
