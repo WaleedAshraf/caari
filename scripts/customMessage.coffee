@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   @caari post in <room_no> message: <message>
+#   hubot post in <room_no> message: <message>
 #
 # Author:
 #   Sarah Noor

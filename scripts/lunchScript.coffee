@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   @caari lunch today || lunch tomorrow
+#   hubot lunch today || lunch tomorrow
 #
 # Author:
 #   Waleed Ashraf
