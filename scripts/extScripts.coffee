@@ -21,9 +21,12 @@ uhh_what = [
 	]
 
 adminUser = process.env.ADMIN_USER
-leaveForm = process.env.LEAVE_FORM
+feedbackForm = process.env.FEEDBACK_FORM
 
 module.exports = (robot) ->
+
+	robot.respond /feedback form/i, (msg) ->
+		msg.reply feedbackForm
 
 	robot.respond /thank/i, (msg) ->
 		msg.reply "Mention not :)"
