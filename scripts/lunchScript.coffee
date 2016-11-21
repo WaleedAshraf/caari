@@ -173,4 +173,33 @@ module.exports = (robot) ->
 			        body = resBody
 			      data.lunchTomorrow = body
 	    msg.send "Menu Updated!"
+
+	robot.hear /lunch review (new|old) (\d?[0-5])/i,(msg)->
+		date = today(0);
+		menuType = msg.match[1].trim()
+		userName = msg.message.user.name
+		score = msg.match[2].trim()
+		menu = robot.http(lunch + date)
+			.get() (err, res, resBody) ->       
+			    if err
+			      data.lunchToday = "Lunch Error: #{err}"
+			    else
+			      try
+			        body = JSON.parse resBody
+			      catch err
+			        body = resBody
+			      data.lunchToday = body
+
+		date = today(1);
+		menu = robot.http(lunch + date)
+			.get() (err, res, resBody) ->       
+			    if err
+			      data.lunchTomorrow = "Lunch Error: #{err}"
+			    else
+			      try
+			        body = JSON.parse resBody
+			      catch err
+			        body = resBody
+			      data.lunchTomorrow = body
+	    msg.send "Menu Updated!"
 	  	
