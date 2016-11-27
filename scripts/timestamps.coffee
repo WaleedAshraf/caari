@@ -8,7 +8,8 @@
 #   None
 #
 # Commands:
-#	hubot <timestamp>  - format and display timestamp in different timeoznes
+#	hubot <timestamp>  - format and display timestamp in different timezones
+#	hubot <timestamp> <timezone> - format and display timestamp in requested timezone
 #
 # Author:
 #   Chaudhry Junaid Anwar <junaidanwar10@gmail.com>
