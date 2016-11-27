@@ -30,7 +30,7 @@ timestampIsValid = (timestamp) ->
 formatTimestamp = (timestamp, timezone = 'America/Chicago', format = 'YYYY-MM-DDTHH:mm:ssZZ') ->
     moment.unix(timestamp).tz(timezone).format(format);
 
-formatOutput = (tz, timestamp, format1 = 'YYYY-MM-DDTHH:mm:ssZZ', format2 = 'dddd, MMMM Do YYYY, h:mm:ssa') ->
+formatOutput = (timestamp, tz = 'America/Chicago', format1 = 'YYYY-MM-DDTHH:mm:ssZZ', format2 = 'dddd, MMMM Do YYYY, h:mm:ssa') ->
     ts1 = formatTimestamp timestamp, tz, format1 
     ts2 = formatTimestamp timestamp, tz, format2
     return  'Formatted time(' + tz + '):  ' + ts1 + '  -  ' + ts2 
@@ -40,12 +40,12 @@ module.exports = (robot) ->
 	robot.respond /([+-]?\d+)$/i, (msg) ->
         timestamp = msg.match[1] and parseInt(msg.match[1], 10)
         if timestampIsValid timestamp
-            msg.reply formatOutput 'America/Chicago', timestamp
-            msg.reply formatOutput 'Asia/Karachi', timestamp
-            msg.reply formatOutput 'Etc/UTC', timestamp
-            msg.reply formatOutput 'America/Denver', timestamp
-            msg.reply formatOutput 'America/New_York', timestamp
-            msg.reply formatOutput 'America/Los_Angeles', timestamp
+            msg.reply formatOutput timestamp, 'America/Chicago'
+            msg.reply formatOutput timestamp, 'Asia/Karachi'
+            msg.reply formatOutput timestamp, 'Etc/UTC'
+            msg.reply formatOutput timestamp, 'America/Denver'
+            msg.reply formatOutput timestamp, 'America/New_York'
+            msg.reply formatOutput timestamp, 'America/Los_Angeles'
         else
             msg.reply strings.INVALID_TIMESTAMP_ERROR
 
@@ -58,5 +58,5 @@ module.exports = (robot) ->
             return msg.reply strings.INVALID_TIMESTAMP_ERROR
         else if matches.length == 0 
             return msg.reply strings.INVALID_TIMEZONE_ERROR
-        _.each matches, (tz) -> msg.reply formatOutput tz, timestamp
+        _.each matches, (tz) -> msg.reply formatOutput timestamp, tz 
 
