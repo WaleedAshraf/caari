@@ -40,23 +40,22 @@ module.exports = (robot) ->
 	robot.respond /([+-]?\d+)$/i, (msg) ->
         timestamp = msg.match[1] and parseInt(msg.match[1], 10)
         if timestampIsValid timestamp
-            msg.reply formatOutput timestamp, 'America/Chicago'
-            msg.reply formatOutput timestamp, 'Asia/Karachi'
-            msg.reply formatOutput timestamp, 'Etc/UTC'
-            msg.reply formatOutput timestamp, 'America/Denver'
-            msg.reply formatOutput timestamp, 'America/New_York'
-            msg.reply formatOutput timestamp, 'America/Los_Angeles'
+            output = formatOutput(timestamp, 'America/Chicago') + '\n' + formatOutput(timestamp, 'Asia/Karachi') + '\n' +formatOutput(timestamp, 'Etc/UTC') + '\n' +formatOutput(timestamp, 'America/Denver') + '\n' +formatOutput(timestamp, 'America/New_York') + '\n' + formatOutput(timestamp, 'America/Los_Angeles')
+            msg.reply output
         else
             msg.reply strings.INVALID_TIMESTAMP_ERROR
 
-	robot.respond /([+-]?\d+)\s+['"\\\/]?([A-Za-z\/]+)['"\\\/]?$/i, (msg) ->
+	robot.respond /([+-]?\d+)((\s+['"]?([A-Za-z_\/]+)['"]?)+)/i, (msg) ->
         timestamp = msg.match[1] and parseInt(msg.match[1],10)
-        timezone = msg.match[2] 
+        r = /([A-Za-z_\/]+)/g
+        timezones = while match = r.exec msg.match[2] 
+            match[1]
         timezoneList = moment.tz.names()
-        matches = _.filter timezoneList, (tz) -> tz.toLowerCase().indexOf(timezone.toLowerCase()) >= 0 
+        matches = _.flatten _.map timezones, (timezone) -> _.filter timezoneList, (tz) -> tz.toLowerCase().indexOf(timezone.toLowerCase()) >= 0 
         if not timestampIsValid timestamp
             return msg.reply strings.INVALID_TIMESTAMP_ERROR
         else if matches.length == 0 
             return msg.reply strings.INVALID_TIMEZONE_ERROR
-        _.each matches, (tz) -> msg.reply formatOutput timestamp, tz 
+        output = _.map matches, (tz) -> formatOutput(timestamp, tz)
+        msg.reply output.join('\n')
 
