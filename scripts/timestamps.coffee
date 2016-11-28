@@ -33,7 +33,7 @@ formatTimestamp = (timestamp, timezone = 'America/Chicago', format = 'YYYY-MM-DD
 formatOutput = (timestamp, tz = 'America/Chicago', format1 = 'YYYY-MM-DDTHH:mm:ssZZ', format2 = 'dddd, MMMM Do YYYY, h:mm:ssa') ->
     ts1 = formatTimestamp timestamp, tz, format1 
     ts2 = formatTimestamp timestamp, tz, format2
-    return  'Formatted time(' + tz + '):  ' + ts1 + '  -  ' + ts2 
+    return  tz + ':  ' + ts1 + '  -  ' + ts2 
 
 module.exports = (robot) ->
 
@@ -41,7 +41,7 @@ module.exports = (robot) ->
         timestamp = msg.match[1] and parseInt(msg.match[1], 10)
         if timestampIsValid timestamp
             output = formatOutput(timestamp, 'America/Chicago') + '\n' + formatOutput(timestamp, 'Asia/Karachi') + '\n' +formatOutput(timestamp, 'Etc/UTC') + '\n' +formatOutput(timestamp, 'America/Denver') + '\n' +formatOutput(timestamp, 'America/New_York') + '\n' + formatOutput(timestamp, 'America/Los_Angeles')
-            msg.reply output
+            msg.reply '```' + output + '```'
         else
             msg.reply strings.INVALID_TIMESTAMP_ERROR
 
@@ -57,5 +57,5 @@ module.exports = (robot) ->
         else if matches.length == 0 
             return msg.reply strings.INVALID_TIMEZONE_ERROR
         output = _.map matches, (tz) -> formatOutput(timestamp, tz)
-        msg.reply output.join('\n')
+        msg.reply '```' + output.join('\n') + '```'
 
