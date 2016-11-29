@@ -61,7 +61,7 @@ module.exports = (robot) ->
     output = _.map matches, (tz) -> formatOutput(timestamp, tz)
     msg.reply '```' + output.join('\n') + '```'
 
-  robot.hear /\b\d{9,10}\b/ig, (msg) ->
+  robot.hear /\b\d{10}\b/ig, (msg) ->
     timestamps = (parseInt(timestamp, 10) for timestamp in msg.match)
     _.remove timestamps, _.isNaN
     if timestamps.length
