@@ -64,11 +64,13 @@ module.exports = (robot) ->
   robot.hear /\b\d{10}\b/ig, (msg) ->
     timestamps = (parseInt(timestamp, 10) for timestamp in msg.match)
     _.remove timestamps, _.isNaN
+    timestamps = _.uniq timestamps
     if timestamps.length
       output = _.map timestamps, (t) ->
         section = []
-        section.push formatOutput t, 'America/Chicago', true
-        section.push formatOutput t, 'Asia/Karachi', true
+        section.push t + ':'
+        section.push formatOutput t, 'America/Chicago'
+        section.push formatOutput t, 'Asia/Karachi'
         return section
       output = _.map output, (s) -> s.join('\n')
       msg.reply '```' + output.join('\n\n') + '```'
