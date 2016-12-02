@@ -12,24 +12,24 @@ storeKey = 'hubot-schedule-helper-HTTPJob:schedule'
 
 food = [
   "You don't need a silver fork to eat good food.",
+  "There is no sincerer love than the love of food!",
   "Ask not what you can do for your country. Ask what’s for lunch.",
   "The only time to eat diet food is while you're waiting for the steak to cook.",
   "Never eat more than you can lift.",
   "There's no such thing as a free lunch.",
+  "There is no sincerer love than the love of food!",
   "Anyone who has lost track of time when using a computer knows the propensity to dream, the urge to make dreams come true and the tendency to miss lunch.",
   "12% of employees eat because they are hungry. 88% of employees eat because it is 1 o’clock.",
   "We must explain the truth: There is no free lunch.",
-  "Spaghetti can be eaten most successfully if you inhale it like a vacuum cleaner.",
+  "There is no sincerer love than the love of food!",
   "The only think I like better than talking about Food is Eating.",
   "Sandwiches are wonderful. You don't need a spoon or a plate!",
+  "There is no sincerer love than the love of food!",
   "One should eat to live, not live to eat.",
-  "It's okay to eat fish because they don't have any feelings.",
-  "I still eat a burger at a counter with ketchup dripping down my face.",
-  "So long as you have food in your mouth, you have solved all questions for the time being.",
   "The kitchen is a sacred space.",
-  "If God did not intend for us to eat animals, then why did he make them out of meat?",
   "Your diet is a bank account. Good food choices are good investments.",
   "I get way too much happiness from good food.",
+   "There is no sincerer love than the love of food!",
   "I think about food literally all day every day. It's a thing.",
   "I think I was immediately fed, so food became a very important part of my life.",
   "Ice cream is my comfort food.",
@@ -166,6 +166,10 @@ class HTTPJob extends Job
       catch
         lunchMsg = body
       robot.messageRoom commonRoom,lunchMsg
+
+    if message is 'CLEAR REVIEW USERS'
+      data.reviewUsers = [];
+      robot.send envelope, "REVIEW USERS cleared!"
 
 module.exports = (robot) ->
   scheduler = new Scheduler({robot, storeKey, job: HTTPJob})

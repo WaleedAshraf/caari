@@ -9,6 +9,7 @@
 #
 # Commands:
 #   hubot lunch today || lunch tomorrow
+#	hubot lunch review <old|new> <1-5>
 #
 # Author:
 #   Waleed Ashraf
@@ -174,32 +175,37 @@ module.exports = (robot) ->
 			      data.lunchTomorrow = body
 	    msg.send "Menu Updated!"
 
-	robot.hear /lunch review (new|old) (\d?[0-5])/i,(msg)->
+	robot.hear /lunch review (new|old) (\d?[1-5])/i,(msg)->
 		date = today(0);
 		menuType = msg.match[1].trim()
 		userName = msg.message.user.name
 		score = msg.match[2].trim()
-		menu = robot.http(lunch + date)
-			.get() (err, res, resBody) ->       
-			    if err
-			      data.lunchToday = "Lunch Error: #{err}"
-			    else
-			      try
-			        body = JSON.parse resBody
-			      catch err
-			        body = resBody
-			      data.lunchToday = body
+		if(checkUser(userName))
+			robot.http("?date=" + date +"&menuType=" + menuType + "&score=" + score)
+				.post() (err, res, resBody) ->       
+				    if err
+				    	msg.send "#{err}";
+				    else
+				      msg.send "Thanks for review! Current total for todays lunch is: #{res}";
+		else
+			msg.send "Ops! You have alraedy submitted lunch review today."
 
-		date = today(1);
-		menu = robot.http(lunch + date)
-			.get() (err, res, resBody) ->       
+	robot.hear /lunch total (new|old)/i,(msg)->
+		date = today(0);
+		menuType = msg.match[1].trim()
+		robot.http("?date=" + date +"&menuType=" + menuType)
+			.post() (err, res, resBody) ->       
 			    if err
-			      data.lunchTomorrow = "Lunch Error: #{err}"
+			    	msg.send "#{err}";
 			    else
-			      try
-			        body = JSON.parse resBody
-			      catch err
-			        body = resBody
-			      data.lunchTomorrow = body
-	    msg.send "Menu Updated!"
-	  	
+			      msg.send "Current total for todays lunch is: #{res}";   
+
+	checkUser = (userName) ->
+		try
+			if(data.reviewUsers["#{userName}"])
+				return false;
+			data.reviewUsers.push userName;
+			return true;
+		catch
+			return false;
+  	

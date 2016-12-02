@@ -90,3 +90,11 @@ module.exports = (robot) ->
 		else
 		  msg.send "You are not authorized!"
 
+	robot.respond /CLEAR REVIEW USERS/i, (msg) ->
+		user = msg.message.user.name
+		if user is adminUser
+			robot.brain.data.reviewUsers = [];
+			msg.send "REVIEW USERS cleared!"
+		else
+			msg.send "You are not authorized!"
+
