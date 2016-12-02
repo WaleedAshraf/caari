@@ -15,6 +15,7 @@
 #   Waleed Ashraf
 
 lunch = process.env.LUNCH
+lunchReview = process.env.LUNCH_REVIEW
 
 today = (add) ->
   day = new Date  
@@ -181,7 +182,7 @@ module.exports = (robot) ->
 		userName = msg.message.user.name
 		score = msg.match[2].trim()
 		if(checkUser(userName))
-			robot.http("?date=" + date +"&menuType=" + menuType + "&score=" + score)
+			robot.http(lunchReview + "?date=" + date +"&menuType=" + menuType + "&score=" + score)
 				.post() (err, res, resBody) ->       
 				    if err
 				    	msg.send "#{err}";
