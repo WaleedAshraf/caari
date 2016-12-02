@@ -182,29 +182,34 @@ module.exports = (robot) ->
 		userName = msg.message.user.name
 		score = msg.match[2].trim()
 		if(checkUser(userName))
-			robot.http(lunchReview + "?date=" + date +"&menuType=" + menuType + "&score=" + score)
+			menu = robot.http( "#{lunchReview}?date=#{date}&menuType=#{menuType}&score=#{score}")
 				.post() (err, res, resBody) ->       
-				    if err
-				    	msg.send "#{err}";
-				    else
-				      msg.send "Thanks for review! Current total for todays lunch is: #{res}";
+					if err
+						msg.send "#{err}";
+					else
+						perct = (resBody*20).toFixed(2);
+						totalScore = (resBody*1).toFixed(2);
+						msg.send "Thanks for review!Current status of todays lunch is: #{perct}% (#{totalScore})";
 		else
 			msg.send "Ops! You have alraedy submitted lunch review today."
 
-	robot.hear /lunch total (new|old)/i,(msg)->
-		date = today(0);
-		menuType = msg.match[1].trim()
-		robot.http("?date=" + date +"&menuType=" + menuType)
-			.post() (err, res, resBody) ->       
-			    if err
-			    	msg.send "#{err}";
-			    else
-			      msg.send "Current total for todays lunch is: #{res}";   
+#	robot.hear /lunch score (new|old)/i,(msg)->
+#		date = today(0);
+#		menuType = msg.match[1].trim()
+#		menu = robot.http("?date=" + date +"&menuType=" + menuType)
+#			.post() (err, res, resBody) ->       
+#				if err
+#					msg.send "#{err}";
+#				else
+#					perct = (resBody*20).toFixed(2);
+#					totalScore = (resBody*1).toFixed(2);
+#					msg.send "Current status of todays lunch is: #{perct}% (#{totalScore})"; 
 
 	checkUser = (userName) ->
 		try
-			if(data.reviewUsers["#{userName}"])
-				return false;
+			for n of data.reviewUsers
+				if data.reviewUsers[n] == userName
+					return false;
 			data.reviewUsers.push userName;
 			return true;
 		catch
