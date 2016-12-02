@@ -9,11 +9,13 @@
 #
 # Commands:
 #   hubot lunch today || lunch tomorrow
+#	hubot lunch review <old|new> <1-5>
 #
 # Author:
 #   Waleed Ashraf
 
 lunch = process.env.LUNCH
+lunchReview = process.env.LUNCH_REVIEW
 
 today = (add) ->
   day = new Date  
@@ -173,4 +175,38 @@ module.exports = (robot) ->
 			        body = resBody
 			      data.lunchTomorrow = body
 	    msg.send "Menu Updated!"
-	  	
+
+	robot.hear /lunch review (new|old) (\d?[1-5])/i,(msg)->
+		date = today(0);
+		menuType = msg.match[1].trim()
+		userName = msg.message.user.name
+		score = msg.match[2].trim()
+		if(checkUser(userName))
+			robot.http(lunchReview + "?date=" + date +"&menuType=" + menuType + "&score=" + score)
+				.post() (err, res, resBody) ->       
+				    if err
+				    	msg.send "#{err}";
+				    else
+				      msg.send "Thanks for review! Current total for todays lunch is: #{res}";
+		else
+			msg.send "Ops! You have alraedy submitted lunch review today."
+
+	robot.hear /lunch total (new|old)/i,(msg)->
+		date = today(0);
+		menuType = msg.match[1].trim()
+		robot.http("?date=" + date +"&menuType=" + menuType)
+			.post() (err, res, resBody) ->       
+			    if err
+			    	msg.send "#{err}";
+			    else
+			      msg.send "Current total for todays lunch is: #{res}";   
+
+	checkUser = (userName) ->
+		try
+			if(data.reviewUsers["#{userName}"])
+				return false;
+			data.reviewUsers.push userName;
+			return true;
+		catch
+			return false;
+  	
