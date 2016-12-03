@@ -190,7 +190,7 @@ module.exports = (robot) ->
 						perct = (resBody*20).toFixed(2);
 						totalScore = (resBody*1).toFixed(2);
 						data.reviewUsers.push userName;
-						msg.send "Thanks for review!Current status of todays lunch is: #{perct}% (#{totalScore})";
+						msg.send "Thanks for review! Current status of todays lunch is: #{perct}% (#{totalScore})";
 		else
 			msg.send "Ops! You have alraedy submitted lunch review today."
 
