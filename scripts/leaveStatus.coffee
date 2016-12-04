@@ -53,7 +53,7 @@ module.exports = (robot) ->
 					message = "Employee status updated successfully!"
 				msg.reply message
 		
-	robot.respond /leaves status/i, (msg) ->
+	robot.respond /leaves status|leave status/i, (msg) ->
 		userName = msg.message.user.name
 		members = robot.brain.data.employees
 		email = emailId(userName, members)

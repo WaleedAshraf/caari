@@ -176,7 +176,7 @@ module.exports = (robot) ->
 			      data.lunchTomorrow = body
 	    msg.send "Menu Updated!"
 
-	robot.hear /lunch review (new|old) (\d?[1-5])/i,(msg)->
+	robot.hear /lunch review (new|old) ([1-5])$/i,(msg)->
 		date = today(0);
 		menuType = msg.match[1].trim()
 		userName = msg.message.user.name
@@ -189,11 +189,12 @@ module.exports = (robot) ->
 					else
 						perct = (resBody*20).toFixed(2);
 						totalScore = (resBody*1).toFixed(2);
-						msg.send "Thanks for review!Current status of todays lunch is: #{perct}% (#{totalScore})";
+						data.reviewUsers.push userName;
+						msg.send "Thanks for review! Current status of todays lunch is: #{perct}% (#{totalScore}/5)";
 		else
 			msg.send "Ops! You have alraedy submitted lunch review today."
 
-#	robot.hear /lunch score (new|old)/i,(msg)->
+#	robot.hear /lunch score/i,(msg)->
 #		date = today(0);
 #		menuType = msg.match[1].trim()
 #		menu = robot.http("?date=" + date +"&menuType=" + menuType)
@@ -203,14 +204,13 @@ module.exports = (robot) ->
 #				else
 #					perct = (resBody*20).toFixed(2);
 #					totalScore = (resBody*1).toFixed(2);
-#					msg.send "Current status of todays lunch is: #{perct}% (#{totalScore})"; 
+#					msg.send "Current status of todays lunch is: #{perct}% (#{totalScore}/5)"; 
 
 	checkUser = (userName) ->
 		try
 			for n of data.reviewUsers
 				if data.reviewUsers[n] == userName
 					return false;
-			data.reviewUsers.push userName;
 			return true;
 		catch
 			return false;
