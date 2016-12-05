@@ -189,7 +189,7 @@ class HTTPJob extends Job
             if err
               anniUsers = "Anniversaries Error: #{err}"
             else
-              if body.length > 0 && body != null
+              if body.length > 0 && body != "null"
                 body = JSON.parse(body)
                 for n of body
                   name = if getUser(body[n].email) then ', @' + getUser(body[n].email) else ', @' + body[n].name
@@ -207,7 +207,7 @@ class HTTPJob extends Job
           if err
             birtUsers = "Birthday Error: #{err}"
           else
-            if body.length > 0 && body != null
+            if body.length > 0 && body != "null"
               body = JSON.parse(body)
               for n of body
                 name = if getUser(body[n].email) then ', @' + getUser(body[n].email) else ', @' + body[n].name
