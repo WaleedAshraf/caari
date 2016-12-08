@@ -187,16 +187,18 @@ class HTTPJob extends Job
         robot.http(wishAnni + date)
           .get() (err, res, body) ->
             if (err || res.statusCode != 200)
+              console.log("Anni res err:",res)
               anniUsers = "Anniversaries Error: #{err}"
             else
+              console.log("Anni res body:",body)
               if body.length > 0 && body != "null"
                 body = JSON.parse(body)
                 for n of body
                   name = if getUser(body[n].email) then ', @' + getUser(body[n].email) else ', @' + body[n].name
                   anniUsers = anniUsers.concat name
-                robot.messageRoom(commonRoom,anniUsers)
+                robot.messageRoom commonRoom,anniUsers
       catch e
-        robot.messageRoom(commonRoom,"Got Anniversary exception! #{e}")
+        console.log("Got Anni exception",e)
 
     if message is 'WISHES'
       date = today(0)
@@ -205,16 +207,18 @@ class HTTPJob extends Job
         robot.http(wishBirt + date)
         .get() (err, res, body) ->
           if (err || res.statusCode != 200)
+            console.log("Birthday res err:",res)
             birtUsers = "Birthday Error: #{err}"
           else
+            console.log("Birthday res body:",body)
             if body.length > 0 && body != "null"
               body = JSON.parse(body)
               for n of body
                 name = if getUser(body[n].email) then ', @' + getUser(body[n].email) else ', @' + body[n].name
                 birtUsers = birtUsers.concat name
-              robot.messageRoom(commonRoom,birtUsers)
+              robot.messageRoom commonRoom,birtUsers
       catch e
-        robot.messageRoom(commonRoom,"Got Birthday exception! #{e}")
+        console.log("Got birthday exception",e)
       anniWish()
 
 module.exports = (robot) ->
