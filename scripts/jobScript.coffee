@@ -186,7 +186,7 @@ class HTTPJob extends Job
       try
         robot.http(wishAnni + date)
           .get() (err, res, body) ->
-            if err
+            if (err || res.statusCode != 200)
               anniUsers = "Anniversaries Error: #{err}"
             else
               if body.length > 0 && body != "null"
@@ -204,7 +204,7 @@ class HTTPJob extends Job
       try
         robot.http(wishBirt + date)
         .get() (err, res, body) ->
-          if err
+          if (err || res.statusCode != 200)
             birtUsers = "Birthday Error: #{err}"
           else
             if body.length > 0 && body != "null"
