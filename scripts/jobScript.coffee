@@ -184,9 +184,10 @@ class HTTPJob extends Job
       anniUsers = "Happy Work Anniversaries :balloon: :confetti_ball: :samosa: "
       date = today(0);
       try
+        console.log("Anni url is: " + wishAnni + date);
         robot.http(wishAnni + date)
           .get() (err, res, body) ->
-            if (err || res.statusCode != 200)
+            if (err || res.statusCode !== 200)
               console.log("Anni res err:",res.statusCode)
               anniUsers = "Anniversaries Error: #{err}"
             else
@@ -204,9 +205,10 @@ class HTTPJob extends Job
       date = today(0);
       birtUsers = "Happy Birthday :cake: :samosa: :birthday: "
       try
+        console.log("Birth url is: " + wishBirt + date);
         robot.http(wishBirt + date)
           .get() (err, res, body) ->
-            if (err || res.statusCode != 200)
+            if (err || res.statusCode !== 200)
               console.log("Birthday res err:",res.statusCode)
               birtUsers = "Birthday Error: #{err}"
             else
