@@ -182,15 +182,15 @@ class HTTPJob extends Job
 
     anniWish = () ->
       anniUsers = "Happy Work Anniversaries :balloon: :confetti_ball: :samosa: "
-      date = today(0)
+      date = today(0);
       try
         robot.http(wishAnni + date)
           .get() (err, res, body) ->
             if (err || res.statusCode != 200)
-              console.log("Anni res err:",res)
+              console.log("Anni res err:",res.statusCode)
               anniUsers = "Anniversaries Error: #{err}"
             else
-              console.log("Anni res body:",body)
+              console.log("Anni res body:",res.statusCode)
               if body.length > 0 && body != "null"
                 body = JSON.parse(body)
                 for n of body
@@ -201,22 +201,22 @@ class HTTPJob extends Job
         console.log("Got Anni exception",e)
 
     if message is 'WISHES'
-      date = today(0)
+      date = today(0);
       birtUsers = "Happy Birthday :cake: :samosa: :birthday: "
       try
         robot.http(wishBirt + date)
-        .get() (err, res, body) ->
-          if (err || res.statusCode != 200)
-            console.log("Birthday res err:",res)
-            birtUsers = "Birthday Error: #{err}"
-          else
-            console.log("Birthday res body:",body)
-            if body.length > 0 && body != "null"
-              body = JSON.parse(body)
-              for n of body
-                name = if getUser(body[n].email) then ', @' + getUser(body[n].email) else ', @' + body[n].name
-                birtUsers = birtUsers.concat name
-              robot.messageRoom commonRoom,birtUsers
+          .get() (err, res, body) ->
+            if (err || res.statusCode != 200)
+              console.log("Birthday res err:",res.statusCode)
+              birtUsers = "Birthday Error: #{err}"
+            else
+              console.log("Birthday res body:",body)
+              if body.length > 0 && body != "null"
+                body = JSON.parse(body)
+                for n of body
+                  name = if getUser(body[n].email) then ', @' + getUser(body[n].email) else ', @' + body[n].name
+                  birtUsers = birtUsers.concat name
+                robot.messageRoom commonRoom,birtUsers
       catch e
         console.log("Got birthday exception",e)
       anniWish()
