@@ -58,6 +58,8 @@ class HTTPJob extends Job
     lunch = process.env.LUNCH
     commonRoom = process.env.COMMON_ROOM
     data = robot.brain.data
+    wishAnni = process.env.WISH_ANNI
+    wishBirt = process.env.WISH_BIRT
 
     second = (message,msg) ->
       monthmsg = robot.http(statsGit)
@@ -170,6 +172,56 @@ class HTTPJob extends Job
     if message is 'CLEAR REVIEW USERS'
       data.reviewUsers = [];
       robot.send envelope, "REVIEW USERS cleared!"
+
+    getUser = (email) ->
+      members = robot.brain.data.employees
+      for n of members
+        if (members[n].profile.email == email)
+          return members[n].name
+      return false
+
+    anniWish = () ->
+      anniUsers = "Happy Work Anniversaries :balloon: :confetti_ball: :samosa: "
+      date = today(0);
+      try
+        console.log("Anni url is: " + wishAnni + date);
+        robot.http(wishAnni + date)
+          .get() (err, res, body) ->
+            if (err || res.statusCode != 200)
+              console.log("Anni res err:",res.statusCode)
+              anniUsers = "Anniversaries Error: #{err}"
+            else
+              console.log("Anni res body:",res.statusCode)
+              if body.length > 0 && body != "null"
+                body = JSON.parse(body)
+                for n of body
+                  name = if getUser(body[n].email) then ', @' + getUser(body[n].email) else ', @' + body[n].name
+                  anniUsers = anniUsers.concat name
+                robot.messageRoom commonRoom,anniUsers
+      catch e
+        console.log("Got Anni exception",e)
+
+    if message is 'WISHES'
+      date = today(0);
+      birtUsers = "Happy Birthday :cake: :samosa: :birthday: "
+      try
+        console.log("Birth url is: " + wishBirt + date);
+        robot.http(wishBirt + date)
+          .get() (err, res, body) ->
+            if (err || res.statusCode != 200)
+              console.log("Birthday res err:",res.statusCode)
+              birtUsers = "Birthday Error: #{err}"
+            else
+              console.log("Birthday res body:",body)
+              if body.length > 0 && body != "null"
+                body = JSON.parse(body)
+                for n of body
+                  name = if getUser(body[n].email) then ', @' + getUser(body[n].email) else ', @' + body[n].name
+                  birtUsers = birtUsers.concat name
+                robot.messageRoom commonRoom,birtUsers
+      catch e
+        console.log("Got birthday exception",e)
+      anniWish()
 
 module.exports = (robot) ->
   scheduler = new Scheduler({robot, storeKey, job: HTTPJob})
