@@ -61,10 +61,10 @@ module.exports = (robot) ->
     output = _.map matches, (tz) -> formatOutput(timestamp, tz)
     msg.reply '```' + output.join('\n') + '```'
 
-  robot.hear /\b\d{10}\b/ig, (msg) ->
-    timestamps = (parseInt(timestamp, 10) for timestamp in msg.match)
+  robot.hear /(^|\s)\d{10}\b/ig, (msg) ->
+    timestamps = msg.match
+    timestamps = _.uniq _.map timestamps, (t) -> parseInt _.trim(t), 10
     _.remove timestamps, _.isNaN
-    timestamps = _.uniq timestamps
     if timestamps.length
       output = _.map timestamps, (t) ->
         section = []
