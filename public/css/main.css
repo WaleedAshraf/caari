@@ -139,7 +139,7 @@ p.lead {
 	font-family: "roboto-light", serif;
 	font-size: 2rem;
 	line-height: 1.8;
-	color: #4d4d4d;
+	color: #232323;
 }
 @media only screen and (max-width:768px) {
 	p.lead {
@@ -1335,7 +1335,7 @@ header .social-links ul li a:focus {
 	line-height: 1.267;
 }
 #info .tabs-wrap .tab-entry-intro p.lead {
-	color: rgba(17, 17, 17, 0.5);
+	color: rgba(17, 17, 17, 0.9);
 }
 #info .tabs-wrap .tab-entry-intro .with-bottom-line {
 	position: relative;
