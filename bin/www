@@ -1,0 +1,9 @@
+var path = require('path');
+var dotenv = require('dotenv').config();
+var proc = require('child_process');
+
+child = proc.spawn('./bin/hubot', {
+	cwd: path.resolve('./'),
+	env: process.env,
+	stdio: 'inherit'
+});
