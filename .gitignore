@@ -3,3 +3,4 @@ node_modules
 .hubot_history
 dump.rdb
 CONFIG.json
+.env
