@@ -13,9 +13,8 @@
 module.exports = (robot) ->
 
 	## set up a route to redirect http to https
-	robot.router.get "*", (req, res) ->
-		res.redirect('https://caari.io' + req.url);
-
 	robot.router.get "/", (req, res) ->
-		res.render("../views")
-		
+		if(!req.secure)
+			res.redirect('https://caari.io')
+		else
+			res.render("../views")
