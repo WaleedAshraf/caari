@@ -814,7 +814,7 @@ header .logo {
 	position: absolute;
 	left: 26px;
 	top: 0;
-	margin-top: 78px;
+	margin-top: 220px;
 }
 
 header .logo a{
@@ -886,13 +886,17 @@ header .social-links ul li a:focus {
 @media only screen and (max-width:1024px) {
 	header .logo {
 		left: 24px;
-		margin-top: 42px;
+		margin-top: 220px;
 	}
-	header .logo a {
-		width: 90px;
-		height: 78px;
-		background-size: 90px 78px;
+
+	header .logo a{
+		font-size: 9rem;
 	}
+
+	header .logo img {
+		width: 120px;
+	}
+
 	header .social-links {
 		right: 18px;
 		top: 54px;
@@ -900,14 +904,18 @@ header .social-links ul li a:focus {
 }
 @media only screen and (max-width:768px) {
 	header .logo {
-		left: 51px;
-		margin-top: 36px;
+		left: 24px;
+		margin-top: 220px;
 	}
-	header .logo a {
-		width: 80px;
-		height: 70px;
-		background-size: 80px 70px;
+
+	header .logo a{
+		font-size: 8rem;
 	}
+
+	header .logo img {
+		width: 110px;
+	}
+
 	header .social-links {
 		right: 45px;
 		top: 48px;
@@ -915,13 +923,14 @@ header .social-links ul li a:focus {
 }
 @media only screen and (max-width:600px) {
 	header .logo {
-		left: 41px;
-		margin-top: 30px;
+		left: 24px;
+		margin-top: 120px;
 	}
-	header .logo a {
-		width: 70px;
-		height: 61px;
-		background-size: 70px 61px;
+	header .logo a{
+		font-size: 6rem;
+	}
+	header .logo img {
+		width: 90px;
 	}
 	header .social-links {
 		right: 41px;
@@ -933,7 +942,14 @@ header .social-links ul li a:focus {
 }
 @media only screen and (max-width:500px) {
 	header .logo {
-		left: 35px;
+		left: 20px;
+		margin-top: 120px;
+	}
+	header .logo a{
+		font-size: 5rem;
+	}
+	header .logo img {
+		width: 95px;
 	}
 	header .social-links {
 		right: 35px;
@@ -947,13 +963,14 @@ header .social-links ul li a:focus {
 }
 @media only screen and (max-width:380px) {
 	header .logo {
-		left: 30px;
-		margin-top: 30px;
+		left: 15px;
+		margin-top: 100px;
 	}
-	header .logo a {
-		width: 60px;
-		height: 52px;
-		background-size: 60px 52px;
+	header .logo a{
+		font-size: 4rem;
+	}
+	header .logo img {
+		width: 80px;
 	}
 	header .social-links ul {
 		font-size: 2rem;
