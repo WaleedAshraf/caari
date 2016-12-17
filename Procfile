@@ -1,1 +1,2 @@
-web: bin/hubot -a slack
+web: npm start
+worker: /bin/hubot
