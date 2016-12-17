@@ -1,2 +1,2 @@
 web: npm start
-worker: /bin/hubot
+worker: bin/hubot
