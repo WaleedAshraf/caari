@@ -50,16 +50,13 @@ app.get('*', (req, res) => {
             } else {
                 // otherwise we can render a 404 page
                 res.status(404);
+                return res.render('pageNotFound');     
             }
 
-            // render the index template with the embedded React markup
-            if(res.status != 404){
-                logger.info("markup render");
-                return res.render('index', { markup });
-            } else {
-                logger.info("pageNotFound");
-                return res.render('pageNotFound');
-            } 
+             // render the index template with the embedded React markup
+            logger.info("markup render");
+            return res.render('index', { markup });
+
         }
     );
 });
