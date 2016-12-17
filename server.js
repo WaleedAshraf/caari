@@ -13,7 +13,7 @@ import logger from './logger.js';
 const app = new Express();
 const server = new Server(app);
 const env = process.env.NODE_ENV || 'development';
-const port = process.env.EXPRESS_PORT || 8080;
+const port = process.env.EXPRESS_WEB_PORT || 3000;
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'web', 'views'));
