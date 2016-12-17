@@ -1,12 +1,22 @@
 {
   "name": "caari",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.0.1",
   "author": "Waleed Ashraf <waleedashraf@outlook.com>",
-  "description": "A bot for developers!",
+  "description": "Your own personalized bot!",
+  "repository": "git@github.com:WaleedAshraf/caari.git",
+  "license": "MIT",
+  "scripts": {
+    "start": "node_modules/.bin/babel-node --presets 'react,es2015' server.js",
+    "build": "NODE_ENV=prouction node_modules/.bin/webpack -p"
+  },
   "dependencies": {
     "@moqada/hubot-schedule-helper": "^1.0.0",
-    "dotenv": "^2.0.0",
+    "babel-cli": "^6.11.4",
+    "babel-core": "^6.13.2",
+    "babel-preset-es2015": "^6.13.2",
+    "babel-preset-react": "^6.11.1",
+    "ejs": "^2.5.5",
+    "express": "^4.14.0",
     "hubot": "git://github.com/WaleedAshraf/hubot.git",
     "hubot-arm": "^0.2.1",
     "hubot-brain-inspect": "0.0.1",
@@ -24,10 +34,37 @@
     "mailgun-js": "^0.7.12",
     "moment": "^2.17.0",
     "moment-timezone": "^0.5.9",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "react-router": "^2.6.1",
     "request": "^2.74.0",
-    "timeago": "^0.1.0"
+    "timeago": "^0.1.0",
+    "winston": "^2.3.0"
   },
   "engines": {
-    "node": "0.10.x"
+    "node": "4.4.x"
+  },
+  "devDependencies": {
+    "babel-loader": "^6.2.10",
+    "bootstrap": "^3.3.7",
+    "browser-sync": "^2.18.5",
+    "dotenv": "^2.0.0",
+    "font-awesome": "^4.6.3",
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^2.3.1",
+    "gulp-header": "^1.8.8",
+    "gulp-less": "^3.3.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^2.0.0",
+    "gulp-util": "^3.0.7",
+    "http-server": "^0.9.0",
+    "immutable": "^3.8.1",
+    "jquery": "^1.11.3",
+    "nodemon": "^1.11.0",
+    "orchestrator": "^0.3.8",
+    "react-hot-loader": "^1.3.0",
+    "resp-modifier": "^6.0.2",
+    "webpack": "^1.13.3",
+    "webpack-dev-server": "^1.16.2"
   }
 }
