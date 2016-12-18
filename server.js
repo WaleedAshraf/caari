@@ -8,12 +8,14 @@ import { renderToString } from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
 import routes from './web/routes';
 import logger from './logger.js';
+import morgan from 'morgan';
 
 // initialize the server and configure support for ejs templates
 const app = new Express();
 const server = new Server(app);
 const env = process.env.NODE_ENV || 'development';
 const port = process.env.PORT || 3000;
+var router = Express.Router();
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'web', 'views'));
@@ -21,11 +23,18 @@ app.set('views', path.join(__dirname, 'web', 'views'));
 // define the folder that will be used for static assets
 app.use(Express.static(path.join(__dirname, 'static')));
 
+// use router
+app.use('/', router);
+
+// override express logger
+logger.debug("Overriding 'Express' logger");
+app.use(morgan('common',{ "stream": logger.stream }));
+
 // use SSL
 app.use(requireHTTPS);
 
 // universal routing and rendering
-app.get('*', (req, res) => {
+router.get('/', (req, res) => {
     match(
         { routes, location: req.url },
         (err, redirectLocation, renderProps) => {
@@ -47,19 +56,19 @@ app.get('*', (req, res) => {
             if (renderProps) {
                 // if the current route matched we have renderProps
                 markup = renderToString(<RouterContext {...renderProps} />);
-            } else {
-                // otherwise we can render a 404 page
-                res.status(404);
-                return res.render('pageNotFound');     
+                logger.info("markup render" , req.url);
+                return res.render('index', { markup });
+            }else{
+                return;
             }
-
-             // render the index template with the embedded React markup
-            logger.info("markup render");
-            return res.render('index', { markup });
-
         }
     );
 });
+
+// app.get( '/abc' , (req, res) => {
+  
+//   res.render('pageNotFound');  
+// });
 
 // start the server
 server.listen(port, err => {
@@ -76,3 +85,5 @@ function requireHTTPS(req, res, next) {
     res.setHeader("X-Powered-By", "caari");
     next();
 }
+
+module.exports = router;
