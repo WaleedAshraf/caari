@@ -16,7 +16,7 @@
 secretChannel = process.env.SECRET_CHANNEL
 
 module.exports = (robot) ->
-  robot.hear /post in (.*)/i,(msg)->
+  robot.respond /post in (.*)/i,(msg)->
   	if msg.message.room == secretChannel #custom_message channel id
   		custom = msg.match[1]
   		#selecting one or more occurence of alphanumeric upto a space

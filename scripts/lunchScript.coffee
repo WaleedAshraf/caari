@@ -32,7 +32,7 @@ today = (add) ->
 module.exports = (robot) ->
 	data = robot.brain.data
 
-	robot.hear /whats in lunch today|whats lunch today|lunch today/i,(msg)->
+	robot.respond /whats in lunch today|whats lunch today|lunch today/i,(msg)->
 		body = data.lunchToday
 		try
 			lunchMsg = {
@@ -91,7 +91,7 @@ module.exports = (robot) ->
 			lunchMsg = body
 		msg.send lunchMsg
 
-	robot.hear /whats in lunch tomorrow|whats lunch tomorrow|lunch tomorrow/i,(msg)->
+	robot.respond /whats in lunch tomorrow|whats lunch tomorrow|lunch tomorrow/i,(msg)->
 		body = data.lunchTomorrow
 		try
 			lunchMsg = {
@@ -150,7 +150,7 @@ module.exports = (robot) ->
 			lunchMsg = body
 		msg.send lunchMsg
 
-	robot.hear /update menu/i,(msg)->
+	robot.respond /update menu/i,(msg)->
 		date = today(0);
 		menu = robot.http(lunch + date)
 			.get() (err, res, resBody) ->       
@@ -176,7 +176,7 @@ module.exports = (robot) ->
 			      data.lunchTomorrow = body
 	    msg.send "Menu Updated!"
 
-	robot.hear /lunch review (new|old) ([1-5])$/i,(msg)->
+	robot.respond /lunch review (new|old) ([1-5])$/i,(msg)->
 		date = today(0);
 		menuType = msg.match[1].trim()
 		userName = msg.message.user.name
