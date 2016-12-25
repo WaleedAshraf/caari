@@ -8,8 +8,8 @@
 #   None
 #
 # Commands:
-#	hubot <timestamp>  - format and display timestamp in different timezones
-#	hubot <timestamp> <timezone> - format and display timestamp in requested timezone
+#	hubot ts <timestamp>  - format and display timestamp in different timezones
+#	hubot ts <timestamp> <timezone> - format and display timestamp in requested timezone
 #
 # Author:
 #   Chaudhry Junaid Anwar <junaidanwar10@gmail.com>
@@ -39,7 +39,7 @@ formatOutput = (timestamp, tz = 'America/Chicago', includeTimestamp = false,
   return tz + ':  ' + ts1 + '  -  ' + ts2
 
 module.exports = (robot) ->
-  robot.respond /([+-]?\d+)$/i, (msg) ->
+  robot.respond /ts ([+-]?\d+)$/i, (msg) ->
     timestamp = msg.match[1] and parseInt(msg.match[1], 10)
     if timestampIsValid timestamp
       output = formatOutput(timestamp, 'America/Chicago') + '\n' + formatOutput(timestamp, 'Asia/Karachi') + '\n' + formatOutput(timestamp, 'Etc/UTC') + '\n' + formatOutput(timestamp, 'America/Denver') + '\n' + formatOutput(timestamp, 'America/New_York') + '\n' + formatOutput(timestamp, 'America/Los_Angeles')
@@ -47,7 +47,7 @@ module.exports = (robot) ->
     else
       msg.reply strings.INVALID_TIMESTAMP_ERROR
 
-  robot.respond /([+-]?\d+)((\s+['"]?([A-Za-z_\/]+)['"]?)+)/i, (msg) ->
+  robot.respond /ts ([+-]?\d+)((\s+['"]?([A-Za-z_\/]+)['"]?)+)/i, (msg) ->
     timestamp = msg.match[1] and parseInt(msg.match[1], 10)
     r = /([A-Za-z_\/]+)/g
     timezones = while match = r.exec msg.match[2]
@@ -62,6 +62,8 @@ module.exports = (robot) ->
     msg.reply '```' + output.join('\n') + '```'
 
   robot.hear /(^|\s)\d{10}\b/ig, (msg) ->
+    negative = '^@?'+msg.robot.name+':?\\s+ts';
+    return if new RegExp(negative, 'i').test(msg.message.text);
     timestamps = msg.match
     timestamps = _.uniq _.map timestamps, (t) -> parseInt _.trim(t), 10
     _.remove timestamps, _.isNaN
