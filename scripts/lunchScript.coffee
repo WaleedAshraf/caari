@@ -176,7 +176,7 @@ module.exports = (robot) ->
 			      data.lunchTomorrow = body
 	    msg.send "Menu Updated!"
 
-	robot.respond /lunch review (new|old) ([1-5])$/i,(msg)->
+	robot.respond /lunch review (new|old) ([1-5]|[1-5]\.[0-9])$/i,(msg)->
 		date = today(0);
 		menuType = msg.match[1].trim()
 		userName = msg.message.user.name
