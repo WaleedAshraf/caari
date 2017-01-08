@@ -6,5 +6,6 @@
   "hubot-redis-brain",
   "hubot-rules",
   "hubot-brain-inspect",
-  "hubot-double-parking"
+  "hubot-double-parking",
+  "hubot-heroku-keepalive"
 ]
