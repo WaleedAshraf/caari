@@ -189,21 +189,21 @@
 	/*----------------------------------------------------*/
 	/* Final Countdown Settings
 	------------------------------------------------------ */
-	var finalDate = '2017/01/12';
+	var finalDate = '2017/02/01';
 
 	$('div#counter').countdown(finalDate)
-   	.on('update.countdown', function(event) {
+		.on('update.countdown', function (event) {
 
-   		$(this).html(event.strftime('<div class=\"half\">' +
-   											 '<span>%D <sup>days</sup></span>' + 
-   										 	 '<span>%H <sup>hours</sup></span>' + 
-   										 	 '</div>' +
-   										 	 '<div class=\"half\">' +
-   										 	 '<span>%M <sup>mins</sup></span>' +
-   										 	 '<span>%S <sup>secs</sup></span>' +
-   										 	 '</div>'));
+			$(this).html(event.strftime('<div class=\"half\">' +
+				'<span>%D <sup>days</sup></span>' +
+				'<span>%H <sup>hours</sup></span>' +
+				'</div>' +
+				'<div class=\"half\">' +
+				'<span>%M <sup>mins</sup></span>' +
+				'<span>%S <sup>secs</sup></span>' +
+				'</div>'));
 
-   });     
+		});     
  
 
 })(jQuery);
