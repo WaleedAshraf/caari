@@ -32,7 +32,7 @@ food = [
   "The kitchen is a sacred space.",
   "Your diet is a bank account. Good food choices are good investments.",
   "I get way too much happiness from good food.",
-   "There is no sincerer love than the love of food!",
+  "There is no sincerer love than the love of food!",
   "I think about food literally all day every day. It's a thing.",
   "I think I was immediately fed, so food became a very important part of my life.",
   "Ice cream is my comfort food.",
@@ -137,8 +137,10 @@ class HTTPJob extends Job
 
     if message is 'LUNCH TODAY'
       body = data.lunchToday
+      foodNum = if foodNum < food.length - 1 then foodNum + 1 else 0
       food_msg = food[foodNum]
-      foodNum += 1;
+      
+      foodNum  += 1;
       try
         lunchMsg = {
               "attachments": [
@@ -208,8 +210,8 @@ class HTTPJob extends Job
       return false
 
     anniWish = () ->
+      anniNum = if anniNum < anniWish.length - 1 then anniNum + 1 else 0
       anniUsers = ":balloon: :confetti_ball: :samosa: " + anniWish[anniNum]
-      anniNum += 1
       date = today(0);
       try
         console.log("Anni url is: " + wishAnni + date);
@@ -231,8 +233,8 @@ class HTTPJob extends Job
 
     if message is 'WISHES'
       date = today(0);
+      birthdayNum = if birthdayNum < birthdayWish.length - 1 then birthdayNum + 1 else 0
       birtUsers = ":cake: :samosa: :birthday: " + birthdayWish[birthdayNum]
-      birthdayNum += 1
       try
         console.log("Birth url is: " + wishBirt + date);
         robot.http(wishBirt + date)
