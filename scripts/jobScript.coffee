@@ -9,6 +9,9 @@
 {Scheduler, Job, JobNotFound, InvalidPattern} = require '@moqada/hubot-schedule-helper'
 
 storeKey = 'hubot-schedule-helper-HTTPJob:schedule'
+foodNum = 0
+birthdayNum = 0
+anniNum = 0
 
 food = [
   "You don't need a silver fork to eat good food.",
@@ -34,7 +37,31 @@ food = [
   "I think I was immediately fed, so food became a very important part of my life.",
   "Ice cream is my comfort food.",
   "There is no sincerer love than the love of food!"
-  ]
+]
+
+birthdayWish = [
+  "Happy birthday. We hope your special day will bring you lots of happiness, love and fun. You deserve them a lot. Enjoy!",
+  "On your special day, we wish you good luck. We hope this wonderful day will fill up your heart with joy and blessings. Have a fantastic birthday, celebrate happiness in every day of your life. Happy Birthday!!",
+  "Special day, special person and special celebration. May all your dreams and desires come true in this coming year. Happy birthday.",
+  "May your birthday be filled with many happy hours and your life with many happy birthdays. HAPPY BIRTHDAY !!",
+  "Well, you are another year older and you haven't changed a bit. That's great because you are perfect just the way you are. Happy Birthday.",
+  "You are like a fine wine, you keep getting better with age. Happy Birthday.",
+  "Nice people like you are great to work with. Happy Birthday! Let’s celebrate the beginning of another wonderful year in your life!",
+  "This job has tons of benefits and being on a team with you is one of the best ones! Have a great Birthday and a great year ahead.",
+  "Birthdays mean a fresh start; a time for looking back with gratitude at the blessings of another year. It is also a time to look forward with renewed hope for bigger blessings. May you find true bliss as you face your next milestones. Happy birthday!",
+  "May every moment of your life be as wonderful as you are. Happy Birthday!"
+]
+
+anniWish = [
+  "You are...terrifically tireless, exceptionally excellent, abundantly appreciated and...magnificent beyond words! So glad you're part of our Team! Happy Work Anniversary.",
+  "May you continue to inspire us for many years to come! And may you always remember how much you are needed, respected and valued! Happy Work Anniversary.",
+  "Congratulations on your Work Anniversary! May we get to celebrate many more years with you, because you are the best colleague we can ask for.",
+  "Looking back on the year gone by, we couldn't have done it without you, even if we'd tried. Though your efforts we could never repay, we have this one thing to say: you've made all the difference in every way! Happy Work Anniversary!",
+  "Caremerge's future is sure to be bright with team members like you! Your hard work and creativity is an inspiration to all of your colleagues. Happy Work Anniversary!",
+  "Congratulations on another successful year in your career. May you take some time to reflect on your accomplishments and be blessed with continued growth and prosperity in the years ahead. Happy Work Anniversary!",
+  "You are truly a valued associate! Thank you for your fervent efforts and creativity. Happy Work Anniversary!",
+  "On your anniversary with Caremerge, we want you to know what a pleasure it is to work with someone so driven and dedicated as you are. Thank you for being such an important asset to our team. Happy Work Anniversary!"
+]
 
 today = (add) ->
   day = new Date  
@@ -110,8 +137,8 @@ class HTTPJob extends Job
 
     if message is 'LUNCH TODAY'
       body = data.lunchToday
-      food_num = Math.floor(Math.random() * (20 - 0 + 1)) + 0
-      food_msg = food[food_num]
+      food_msg = food[foodNum]
+      foodNum += 1;
       try
         lunchMsg = {
               "attachments": [
@@ -181,7 +208,8 @@ class HTTPJob extends Job
       return false
 
     anniWish = () ->
-      anniUsers = "Happy Work Anniversaries :balloon: :confetti_ball: :samosa: "
+      anniUsers = ":balloon: :confetti_ball: :samosa: " + anniWish[anniNum]
+      anniNum += 1
       date = today(0);
       try
         console.log("Anni url is: " + wishAnni + date);
@@ -203,7 +231,8 @@ class HTTPJob extends Job
 
     if message is 'WISHES'
       date = today(0);
-      birtUsers = "Happy Birthday :cake: :samosa: :birthday: "
+      birtUsers = ":cake: :samosa: :birthday: " + birthdayWish[birthdayNum]
+      birthdayNum += 1
       try
         console.log("Birth url is: " + wishBirt + date);
         robot.http(wishBirt + date)
