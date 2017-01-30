@@ -54,22 +54,22 @@ module.exports = (robot) ->
 				msg.reply message
 		
 	robot.respond /leaves status|leave status/i, (msg) ->
-		userName = msg.message.user.name
-		members = robot.brain.data.employees
-		email = emailId(userName, members)
-		if (email != null)
-			robot.http(employeeLeaves + email)
-				.get() (err, res, body) ->
-					if err
-						message = "ALERT! GOT ERROR FROM LEAVES SERVICE"
-					else
-						try
-							body = JSON.parse(body)
-							message = 'Full Name: ' + body.EmployeeName + "\n" + 'Email: ' + body.EmailID + "\n" + 'Total: ' + body.Total + "\n" + 'Taken: ' + body.Taken + "\n" + 'PTO Earned: ' + body.PTO + "\n" +'Balance: ' + body.Balance
+		# userName = msg.message.user.name
+		# members = robot.brain.data.employees
+		# email = emailId(userName, members)
+		# if (email != null)
+		# 	robot.http(employeeLeaves + email)
+		# 		.get() (err, res, body) ->
+		# 			if err
+		# 				message = "ALERT! GOT ERROR FROM LEAVES SERVICE"
+		# 			else
+		# 				try
+		# 					body = JSON.parse(body)
+		# 					message = 'Full Name: ' + body.EmployeeName + "\n" + 'Email: ' + body.EmailID + "\n" + 'Total: ' + body.Total + "\n" + 'Taken: ' + body.Taken + "\n" + 'PTO Earned: ' + body.PTO + "\n" +'Balance: ' + body.Balance
 
-							mailSender(message, email)
-						catch
-							return msg.reply body
-					msg.reply "Email sent at " + email
-		else
-			msg.reply "Email not found from slack data"
+		# 					mailSender(message, email)
+		# 				catch
+		# 					return msg.reply body
+		# 			msg.reply "Email sent at " + email
+		# else
+			msg.reply "Please check leaves status through BambooHR"
