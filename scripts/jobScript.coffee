@@ -52,7 +52,7 @@ birthdayWish = [
   "May every moment of your life be as wonderful as you are. Happy Birthday!"
 ]
 
-anniWish = [
+anniversaryWish = [
   "You are...terrifically tireless, exceptionally excellent, abundantly appreciated and...magnificent beyond words! So glad you're part of our Team! Happy Work Anniversary.",
   "May you continue to inspire us for many years to come! And may you always remember how much you are needed, respected and valued! Happy Work Anniversary.",
   "Congratulations on your Work Anniversary! May we get to celebrate many more years with you, because you are the best colleague we can ask for.",
@@ -210,8 +210,8 @@ class HTTPJob extends Job
       return false
 
     anniWish = () ->
-      anniNum = if anniNum < anniWish.length - 1 then anniNum + 1 else 0
-      anniUsers = ":balloon: :confetti_ball: :samosa: " + anniWish[anniNum]
+      anniNum = if anniNum < anniversaryWish.length - 1 then anniNum + 1 else 0
+      anniUsers = ":balloon: :confetti_ball: :samosa: " + anniversaryWish[anniNum]
       date = today(0);
       try
         console.log("Anni url is: " + wishAnni + date);
