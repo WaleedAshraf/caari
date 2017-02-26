@@ -253,7 +253,10 @@ class HTTPJob extends Job
       catch e
         console.log("Got birthday exception",e)
       anniWish()
-
+    
+    if message is 'CLEAR TRAVIS BUILDS'
+      data.builds = {}
+    
 module.exports = (robot) ->
   scheduler = new Scheduler({robot, storeKey, job: HTTPJob})
 
