@@ -77,15 +77,15 @@ module.exports = (robot) ->
     res.sendStatus(200);
   
   robot.respond /travis builds/i, (msg) ->
-		user = msg.message.user.name
-		if user is adminUser
-			msg.send data.builds
-		else
-		  msg.send "You are not authorized!"
+    user = msg.message.user.name
+    if user is adminUser
+      msg.send data.builds
+    else
+      msg.send "You are not authorized!"
   
   robot.respond /clear travis builds/i, (msg) ->
-		user = msg.message.user.name
-		if user is adminUser
-			data.builds = {}
-		else
-		  msg.send "You are not authorized!"
+    user = msg.message.user.name
+    if user is adminUser
+      data.builds = {}
+    else
+      msg.send "You are not authorized!"
