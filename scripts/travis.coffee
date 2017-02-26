@@ -73,8 +73,11 @@ module.exports = (robot) ->
       console.log('buildMessage:', buildMessage);
       robot.messageRoom travisRoom,buildMessage
     else
-      data.builds[key] = p.started_at
-      console.log(key, " adding new key: ",data.builds[key]);
+      if checkStatus(p) && !checkCancel(p)
+        data.builds[key] = p.started_at
+        console.log(key, " adding new key: ", data.builds[key]);
+      else
+        console.log("key not added");
     res.sendStatus(200);
   
   robot.respond /travis builds/i, (msg) ->
