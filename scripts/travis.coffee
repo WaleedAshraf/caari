@@ -64,7 +64,7 @@ module.exports = (robot) ->
           {
             "color": color,				    
             "title": "Travis Status",
-            "text": "Build <#{p.build_url}|##{p.number}> of #{p.branch} (commit: #{p.commit_subject}) by #{p.author} #{status} in #{duration}"
+            "text": "Build <#{p.build_url}|##{p.number}> of #{p.branch} by #{p.author_name} #{status} in #{duration}"
           }
         ]
       }
