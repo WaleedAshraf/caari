@@ -62,6 +62,7 @@ module.exports = (robot) ->
       buildMessage = {
         "attachments": [
           {
+            "fallback": "Travis build #{p.number} #{status}",
             "color": color,				    
             "title": "Travis Status",
             "text": "Build <#{p.build_url}|##{p.number}> of #{p.branch} by #{p.author_name} #{status} in #{duration}"
