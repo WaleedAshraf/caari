@@ -88,26 +88,14 @@ class HTTPJob extends Job
     wishAnni = process.env.WISH_ANNI
     wishBirt = process.env.WISH_BIRT
 
-    second = (message,msg) ->
-      monthmsg = robot.http(statsGit)
-          .get() (err, res, body) ->
-            if err
-              msgt = "Github Error: #{err}"
-            else
-              msgt = "Github Status: #{res.statusCode}"
-            finalmsg = "```JobTitle: #{message}\n#{msg}\n#{msgt} ```"
-            robot.send envelope, finalmsg
-
     if message is 'STAT JOB'
-      robot.http(statsPlan)
+      robot.http(statsGit)
       .get() (err, res, body) ->
         if err
-          msg = "PlanIO Error: #{err}"
+          msg = "Github Error: #{err}"
         else
-          msg = "PlanIO Status: #{res.statusCode}"
-        second(message, msg)
-    else
-      robot.send envelope, message
+          msg = "Github Status: #{res.statusCode}"
+        robot.send envelope, msg
 
     if message is 'LUNCH JOB'
       date = today(0);
