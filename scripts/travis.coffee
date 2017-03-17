@@ -17,19 +17,19 @@ adminUser = process.env.ADMIN_USER
 checkStatus = (p) ->
   if p.result == 1 || p.status == 1
    return false
-  if p.status_message == 'broken' || p.status_message == 'failed' || p.status_message == 'still failing'
+  if p.status_message == 'Broken' || p.status_message == 'Failed' || p.status_message == 'Still failing'
    return false
-  if p.result_message == 'broken' || p.result_message == 'failed' || p.result_message == 'still failing'
+  if p.result_message == 'Broken' || p.result_message == 'Failed' || p.result_message == 'Still failing'
    return false
   return true;
 
 checkCancel = (p) ->
-  if p.status_message == 'canceled' || p.result_message == 'canceled'
+  if p.status_message == 'Canceled' || p.result_message == 'Canceled'
     return true
   return false
 
 checkPending = (p) ->
-  if p.status_message == 'pending' || p.result_message == 'pending'
+  if p.status_message == 'Pending' || p.result_message == 'Pending'
     return true
   return false
 
@@ -39,12 +39,13 @@ module.exports = (robot) ->
     data.builds = if data.builds then data.builds else {}
     p = JSON.parse(req.body.payload)
     key = p.id + p.number
+    console.log(key + " :status_m: " + p.status_message + " :resut_m: " + p.result_message);
     if data.builds[key]
       if checkCancel(p)
         delete data.builds[key]
         console.log("canceled deleting key");
         return res.sendStatus(200)
-      if checkPending(p)
+      if checkPending(p) || (p.finished_at == null)
         console.log("pending key");
         return res.sendStatus(200)
       start = moment(data.builds[key])
@@ -61,9 +62,10 @@ module.exports = (robot) ->
       buildMessage = {
         "attachments": [
           {
+            "fallback": "Travis build #{p.number} #{status}",
             "color": color,				    
             "title": "Travis Status",
-            "text": "Build <#{p.build_url}|##{p.number}> of #{p.branch} (commit: #{p.commit_subject}) by #{p.author} #{status} in #{duration}"
+            "text": "Build <#{p.build_url}|##{p.number}> of #{p.branch} by #{p.author_name} #{status} in #{duration}"
           }
         ]
       }
@@ -72,14 +74,17 @@ module.exports = (robot) ->
       console.log('buildMessage:', buildMessage);
       robot.messageRoom travisRoom,buildMessage
     else
-      data.builds[key] = p.started_at
-      console.log(key, " adding new key: ",data.builds[key]);
+      if checkStatus(p) && !checkCancel(p)
+        data.builds[key] = p.started_at
+        console.log(key, " adding new key: ", data.builds[key]);
+      else
+        console.log("key not added");
     res.sendStatus(200);
   
   robot.respond /travis builds/i, (msg) ->
     user = msg.message.user.name
     if user is adminUser
-      msg.send data.builds
+      msg.send JSON.stringify(data.builds)
     else
       msg.send "You are not authorized!"
   
@@ -87,5 +92,6 @@ module.exports = (robot) ->
     user = msg.message.user.name
     if user is adminUser
       data.builds = {}
+      msg.send "Cleared!"
     else
       msg.send "You are not authorized!"
