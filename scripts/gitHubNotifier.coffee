@@ -99,7 +99,7 @@ module.exports = (robot) ->
 	robot.router.post "/caari/gh-pr-event", (req, res) ->
 		repoName = process.env.REPO_NAME && process.env.REPO_NAME.split(",") || ""
 		data = req.body
-		if payload in data
+		if 'payload' in data
 			data = data.payload
 			if typeof data == 'string'
 				data = JSON.parse(data)
