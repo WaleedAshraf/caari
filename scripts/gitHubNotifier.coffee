@@ -97,9 +97,10 @@ module.exports = (robot) ->
 		res.sendStatus(200)
 
 	robot.router.post "/caari/gh-pr-event", (req, res) ->
-		console.log 'pr event received: ', req.body
 		repoName = process.env.REPO_NAME && process.env.REPO_NAME.split(",") || ""
 		data = req.body
+		if payload in data
+			data = data.payload
 		pr = data.pull_request || {}
 		repo = data.repository || ""
 		console.log 'pr title: ', pr.title
