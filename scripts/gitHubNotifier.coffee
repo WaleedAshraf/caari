@@ -101,6 +101,8 @@ module.exports = (robot) ->
 		data = req.body
 		if payload in data
 			data = data.payload
+			if typeof data == 'string'
+				data = JSON.parse(data)
 		pr = data.pull_request || {}
 		repo = data.repository || ""
 		console.log 'pr title: ', pr.title
