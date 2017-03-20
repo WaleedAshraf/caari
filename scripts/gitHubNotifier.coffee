@@ -97,11 +97,13 @@ module.exports = (robot) ->
 		res.sendStatus(200)
 
 	robot.router.post "/caari/gh-pr-event", (req, res) ->
-		console.log 'pr event received...'
+		console.log 'pr event received: ', req.body
 		repoName = process.env.REPO_NAME && process.env.REPO_NAME.split(",") || ""
 		data = req.body
 		pr = data.pull_request || {}
 		repo = data.repository || ""
+		console.log 'pr title: ', pr.title
+		console.log 'action=', data.action, ', merged=', pr.merged
 		if data.action != 'closed' || pr.merged != true
 			console.log 'uninteresting pr action'
 			res.sendStatus 200
