@@ -14,12 +14,12 @@
 # Author:
 #   Waleed Ashraf <hy@waleedashraf.me>
 
-api_key = process.env.MAILGUN_KEY
-domain = process.env.MAILGUN_DOMAIN
-fromUser = process.env.FROM_USER
-subject = process.env.LEAVE_SUBJECT
-employeeData = process.env.EMPLOYEE_SLACK_DATA
-employeeLeaves = process.env.EMPLOYEE_LEAVES_STATUS
+api_key = process.env.MAILGUN_KEY || '123'
+domain = process.env.MAILGUN_DOMAIN || ''
+fromUser = process.env.FROM_USER || ''
+subject = process.env.LEAVE_SUBJECT || ''
+employeeData = process.env.EMPLOYEE_SLACK_DATA || ''
+employeeLeaves = process.env.EMPLOYEE_LEAVES_STATUS || ''
 mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
 
 emailId = (userName, members) ->
@@ -29,7 +29,7 @@ emailId = (userName, members) ->
 			return members[n].profile.email
 
 mailSender = (message, toUser) ->
-	data = 
+	data =
 	  from: fromUser
 	  to: toUser
 	  subject: subject
@@ -47,12 +47,12 @@ module.exports = (robot) ->
 			.get() (err, res, body) ->
 				if err
 					message = "ALERT! GOT ERROR"
-				else			
+				else
 					tempBody = JSON.parse(body)
 					data.employees = tempBody.members
 					message = "Employee status updated successfully!"
 				msg.reply message
-		
+
 	robot.respond /leaves status|leave status/i, (msg) ->
 		# userName = msg.message.user.name
 		# members = robot.brain.data.employees
