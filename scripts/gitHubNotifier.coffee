@@ -17,7 +17,7 @@
 
 _ = require 'lodash'
 
-api_key = process.env.MAILGUN_KEY || ''
+api_key = process.env.MAILGUN_KEY || '123'
 resPusher = process.env.BLOCKED_GH_NOTIF || ''
 domain = process.env.MAILGUN_DOMAIN || ''
 fromUser = process.env.FROM_USER || ''
@@ -101,8 +101,8 @@ module.exports = (robot) ->
 		data = req.body
 		pr = data.pull_request || {}
 		repo = data.repository || ""
-		console.log 'pr title:', pr.title
-		console.log 'action:', data.action, ', merged:', pr.merged
+		console.log 'PR title:', pr.title
+		console.log 'Action:', data.action, ', Merged:', pr.merged
 		if data.action != 'closed' || pr.merged != true
 			console.log 'uninteresting pr action'
 			res.sendStatus 200
@@ -113,54 +113,38 @@ module.exports = (robot) ->
 		headIndex =  _.findIndex releaseBranches, (br) ->
 			pr.head && pr.head.ref && pr.head.ref.indexOf(br) >= 0
 		if(repoName.indexOf(repo.name) >= 0 && baseIndex >= 0 and headIndex >= 0)
-			console.log "merged interesting branch..."
+			console.log "Merged interesting branch..."
 			release = baseIndex < headIndex
-			channelName = process.env.PR_CHANNEL_NAME && process.env.PR_CHANNEL_NAME.split(",") || ['G1YLK92RE']
+			releaseChannelName = process.env.PR_RELEASE_CHANNEL && process.env.PR_RELEASE_CHANNEL.split(",")
+			backmergeChannelName = process.env.PR_BACKMERGE_CHANNEL && process.env.PR_BACKMERGE_CHANNEL.split(",")
 			if release
 				actionText =  "released"
+				channelName = releaseChannelName
+				thumb_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Creative-Tail-rocket.svg/128px-Creative-Tail-rocket.svg.png"
+				color = "good"
 			else
 				actionText = "backmerged"
-			headMessage = releaseBranches[headIndex] + " " + actionText + " to " + releaseBranches[baseIndex]
+				channelName = backmergeChannelName
+				thumb_url =  ""
+				color = "#cccccc"
 			mergedBy = pr.merged_by && pr.merged_by.login
-			color = if release then "good" else "#cccccc"
-			title = if release then "Release Alert" else "Backmerge Alert"
+			pretext = repo.full_name + ": " + releaseBranches[headIndex] + " " + actionText + " to " + releaseBranches[baseIndex] + " by " + mergedBy
+			stats = pr.commits + " commits, "+ pr.additions + " additions, " + pr.deletions + " deletions, " + pr.changed_files + " changed files."
 			for channel in channelName
 				githubMsg = {
 					"attachments": [
 						{
+							"fallback": pretext,
 							"color": color,
-							"title": headMessage,
-							"fields": [
-								{
-									"title": "To Branch",
-									"value": releaseBranches[baseIndex],
-									"short": true
-								},
-								{
-									"title": "From Branch",
-									"value": releaseBranches[headIndex],
-									"short": true
-								},
-								{
-									"title": "Repo",
-									"value": repo.full_name,
-									"short": true
-								},
-								{
-									"title": "Merged By",
-									"value": mergedBy,
-									"short": true
-								},
-								{
-									"title": "Link",
-									"value": pr.url,
-									"short": false
-								}
-							]
+							"pretext": pretext,
+							"title": "#" + data.number,
+							"title_link": pr.html_url,
+							"text": stats,
+							"thumb_url": thumb_url
 						}
 					]
 				}
 				robot.messageRoom channel, "@channel \n"
 				robot.messageRoom channel, githubMsg
-				console.log 'release/backmerge alert: ' + headMessage
+				console.log 'release/backmerge alert: ' + JSON.stringify(githubMsg)
 		res.sendStatus(200)
