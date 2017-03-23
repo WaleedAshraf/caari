@@ -112,7 +112,7 @@ module.exports = (robot) ->
 			pr.base  && pr.base.ref && pr.base.ref == br
 		headIndex =  _.findIndex releaseBranches, (br) ->
 			pr.head && pr.head.ref && pr.head.ref == br
-		if(repoName.indexOf(repo.name) >= 0 && baseIndex >= 0 and headIndex >= 0)
+		if(baseIndex >= 0 and headIndex >= 0)
 			console.log "Merged interesting branch..."
 			release = baseIndex < headIndex
 			releaseChannelName = process.env.PR_RELEASE_CHANNEL && process.env.PR_RELEASE_CHANNEL.split(",")
