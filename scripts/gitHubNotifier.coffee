@@ -109,9 +109,9 @@ module.exports = (robot) ->
 			return
 		releaseBranches = ['production', 'beta', 'staging']
 		baseIndex = _.findIndex releaseBranches, (br) ->
-			pr.base  && pr.base.ref && pr.base.ref.indexOf(br) >= 0
+			pr.base  && pr.base.ref && pr.base.ref == br
 		headIndex =  _.findIndex releaseBranches, (br) ->
-			pr.head && pr.head.ref && pr.head.ref.indexOf(br) >= 0
+			pr.head && pr.head.ref && pr.head.ref == br
 		if(repoName.indexOf(repo.name) >= 0 && baseIndex >= 0 and headIndex >= 0)
 			console.log "Merged interesting branch..."
 			release = baseIndex < headIndex
