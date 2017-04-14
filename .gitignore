@@ -4,3 +4,5 @@ node_modules
 dump.rdb
 .env
 .vscode/settings.json
+
+newrelic_agent.log
