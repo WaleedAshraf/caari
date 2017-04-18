@@ -9,7 +9,7 @@
     "dotenv": "^2.0.0",
     "hubot": "git://github.com/WaleedAshraf/hubot.git#master",
     "hubot-arm": "^0.2.1",
-    "hubot-brain-inspect": "0.0.1",
+    "hubot-brain-inspect": "git://github.com/WaleedAshraf/hubot-brain-inspect.git#master",
     "hubot-diagnostics": "0.0.1",
     "hubot-double-parking": "1.0.2",
     "hubot-help": "^0.2.0",
