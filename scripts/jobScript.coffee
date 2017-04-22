@@ -206,10 +206,10 @@ class HTTPJob extends Job
         robot.http(wishAnni + date)
           .get() (err, res, body) ->
             if (err || res.statusCode != 200)
-              console.log("Anni res err:",res.statusCode)
+              console.log("Anni res err:", res.statusCode, body)
               anniUsers = "Anniversaries Error: #{err}"
             else
-              console.log("Anni res body:",res.statusCode)
+              console.log("Anni res body:", body)
               if body.length > 0 && body != "null"
                 body = JSON.parse(body)
                 for n of body
@@ -228,7 +228,7 @@ class HTTPJob extends Job
         robot.http(wishBirt + date)
           .get() (err, res, body) ->
             if (err || res.statusCode != 200)
-              console.log("Birthday res err:",res.statusCode)
+              console.log("Birthday res err:", res.statusCode, body)
               birtUsers = "Birthday Error: #{err}"
             else
               console.log("Birthday res body:",body)
