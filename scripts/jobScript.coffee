@@ -212,10 +212,11 @@ class HTTPJob extends Job
               console.log("Anni res body:", body)
               if body.length > 0 && body != "null"
                 body = JSON.parse(body)
-                for n of body
-                  name = if getUser(body[n].email) then ', @' + getUser(body[n].email) else ', @' + body[n].name
-                  anniUsers = anniUsers.concat name
-                robot.messageRoom commonRoom,anniUsers
+                if body.length > 0
+                  for n of body
+                    name = if getUser(body[n].email) then ', @' + getUser(body[n].email) else ', @' + body[n].name
+                    anniUsers = anniUsers.concat name
+                  robot.messageRoom commonRoom,anniUsers
       catch e
         console.log("Got Anni exception",e)
 
@@ -234,10 +235,11 @@ class HTTPJob extends Job
               console.log("Birthday res body:",body)
               if body.length > 0 && body != "null"
                 body = JSON.parse(body)
-                for n of body
-                  name = if getUser(body[n].email) then ', @' + getUser(body[n].email) else ', @' + body[n].name
-                  birtUsers = birtUsers.concat name
-                robot.messageRoom commonRoom,birtUsers
+                if body.length > 0
+                  for n of body
+                    name = if getUser(body[n].email) then ', @' + getUser(body[n].email) else ', @' + body[n].name
+                    birtUsers = birtUsers.concat name
+                  robot.messageRoom commonRoom,birtUsers
       catch e
         console.log("Got birthday exception",e)
       anniWish()
