@@ -89,6 +89,7 @@ class HTTPJob extends Job
     wishBirt = process.env.WISH_BIRT
 
     if message is 'STAT JOB'
+      console.log('JOB: STAT JOB');
       robot.http(statsGit)
       .get() (err, res, body) ->
         if err
@@ -98,9 +99,12 @@ class HTTPJob extends Job
         robot.send envelope, msg
 
     if message is 'LUNCH JOB'
+      console.log('JOB: LUNCH JOB');
       date = today(0);
+      console.log('Lunch url is:', lunch + date)
       menu = robot.http(lunch + date)
-        .get() (err, res, resBody) ->       
+        .get() (err, res, resBody) ->
+            console.log('today lunch', resBody)      
             if err
               data.lunchToday = "Lunch Error: #{err}"
             else
@@ -124,6 +128,7 @@ class HTTPJob extends Job
       robot.send envelope, "lunch updated"
 
     if message is 'LUNCH TODAY'
+      console.log('JOB: LUNCH TODAY');
       body = data.lunchToday
       foodNum = if foodNum < food.length - 1 then foodNum + 1 else 0
       food_msg = food[foodNum]
@@ -187,6 +192,7 @@ class HTTPJob extends Job
       robot.messageRoom commonRoom,lunchMsg
 
     if message is 'CLEAR REVIEW USERS'
+      console.log('JOB: CLEAR REVIEW USERS')
       data.reviewUsers = [];
       robot.send envelope, "REVIEW USERS cleared!"
 
@@ -221,6 +227,7 @@ class HTTPJob extends Job
         console.log("Got Anni exception",e)
 
     if message is 'WISHES'
+      console.log('JOB: WISHES');
       date = today(0);
       birthdayNum = if birthdayNum < birthdayWish.length - 1 then birthdayNum + 1 else 0
       birtUsers = ":cake: :samosa: :birthday: " + birthdayWish[birthdayNum]
@@ -245,6 +252,7 @@ class HTTPJob extends Job
       anniWish()
     
     if message is 'CLEAR TRAVIS BUILDS'
+      console.log('JOB: CLEAR TRAVIS BUILDS');
       data.builds = {}
     
 module.exports = (robot) ->
