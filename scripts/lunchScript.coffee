@@ -154,7 +154,7 @@ module.exports = (robot) ->
 		date = today(0);
 		menu = robot.http(lunch + date)
 			.get() (err, res, resBody) ->       
-			    if err
+			    if (err || res.statusCode != 200)
 			      data.lunchToday = "Lunch Error: #{err}"
 			    else
 			      try
@@ -166,7 +166,7 @@ module.exports = (robot) ->
 		date = today(1);
 		menu = robot.http(lunch + date)
 			.get() (err, res, resBody) ->       
-			    if err
+			    if (err || res.statusCode != 200)
 			      data.lunchTomorrow = "Lunch Error: #{err}"
 			    else
 			      try
@@ -184,7 +184,7 @@ module.exports = (robot) ->
 		if(checkUser(userName))
 			menu = robot.http( "#{lunchReview}?date=#{date}&menuType=#{menuType}&score=#{score}")
 				.post() (err, res, resBody) ->       
-					if err
+					if (err || res.statusCode != 200)
 						msg.send "#{err}";
 					else
 						perct = (resBody*20).toFixed(2);

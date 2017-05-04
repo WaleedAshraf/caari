@@ -92,7 +92,7 @@ class HTTPJob extends Job
       console.log('JOB: STAT JOB');
       robot.http(statsGit)
       .get() (err, res, body) ->
-        if err
+        if (err || res.statusCode != 200)
           msg = "Github Error: #{err}"
         else
           msg = "Github Status: #{res.statusCode}"
@@ -105,7 +105,7 @@ class HTTPJob extends Job
       menu = robot.http(lunch + date)
         .get() (err, res, resBody) ->
             console.log('today lunch', resBody)      
-            if err
+            if (err || res.statusCode != 200)
               data.lunchToday = "Lunch Error: #{err}"
             else
               try
@@ -117,7 +117,7 @@ class HTTPJob extends Job
       date = today(1);
       menu = robot.http(lunch + date)
         .get() (err, res, resBody) ->       
-            if err
+            if (err || res.statusCode != 200)
               data.lunchTomorrow = "Lunch Error: #{err}"
             else
               try
