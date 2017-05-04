@@ -155,7 +155,7 @@ module.exports = (robot) ->
 		menu = robot.http(lunch + date)
 			.get() (err, res, resBody) ->       
 				if (err || res.statusCode != 200)
-					console.log('ERROR: #{resBody}')
+					console.log("ERROR: #{resBody}")
 					data.lunchToday = "Something went wrong."
 				else
           try
@@ -167,7 +167,7 @@ module.exports = (robot) ->
 		menu = robot.http(lunch + date)
 			.get() (err, res, resBody) ->       
 			    if (err || res.statusCode != 200)
-            console.log('ERROR: #{resBody}')
+            console.log("ERROR: #{resBody}")
             data.lunchTomorrow = "Something went wrong."
 			    else
             try
@@ -186,7 +186,7 @@ module.exports = (robot) ->
 			menu = robot.http( "#{lunchReview}?date=#{date}&menuType=#{menuType}&score=#{score}")
 				.post() (err, res, resBody) ->       
 					if (err || res.statusCode != 200)
-						console.log('ERROR: #{resBody}')
+						console.log("ERROR: #{resBody}")
 						msg.send "Something went wrong.";
 					else
 						perct = (resBody*20).toFixed(2);

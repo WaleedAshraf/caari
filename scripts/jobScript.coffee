@@ -93,7 +93,7 @@ class HTTPJob extends Job
       robot.http(statsGit)
       .get() (err, res, body) ->
         if (err || res.statusCode != 200)
-          console.log('ERROR: #{body}')
+          console.log("ERROR: #{body}")
           msg = "Something went wrong."
         else
           msg = "Github Status: #{res.statusCode}"
@@ -107,7 +107,7 @@ class HTTPJob extends Job
         .get() (err, res, resBody) ->
             console.log('today lunch', resBody)      
             if (err || res.statusCode != 200)
-              console.log('ERROR: #{resBody}')
+              console.log("ERROR: #{resBody}")
               data.lunchToday = "Something went wrong."
             else
               try
@@ -120,7 +120,7 @@ class HTTPJob extends Job
       menu = robot.http(lunch + date)
         .get() (err, res, resBody) ->       
             if (err || res.statusCode != 200)
-              console.log('ERROR: #{resBody}')
+              console.log("ERROR: #{resBody}")
               data.lunchTomorrow = "Something went wrong."
             else
               try
