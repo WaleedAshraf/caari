@@ -93,7 +93,8 @@ class HTTPJob extends Job
       robot.http(statsGit)
       .get() (err, res, body) ->
         if (err || res.statusCode != 200)
-          msg = "Github Error: #{err}"
+          console.log('ERROR: #{body}')
+          msg = "Something went wrong."
         else
           msg = "Github Status: #{res.statusCode}"
         robot.send envelope, msg
@@ -106,7 +107,8 @@ class HTTPJob extends Job
         .get() (err, res, resBody) ->
             console.log('today lunch', resBody)      
             if (err || res.statusCode != 200)
-              data.lunchToday = "Lunch Error: #{err}"
+              console.log('ERROR: #{resBody}')
+              data.lunchToday = "Something went wrong."
             else
               try
                 body = JSON.parse resBody
@@ -118,7 +120,8 @@ class HTTPJob extends Job
       menu = robot.http(lunch + date)
         .get() (err, res, resBody) ->       
             if (err || res.statusCode != 200)
-              data.lunchTomorrow = "Lunch Error: #{err}"
+              console.log('ERROR: #{resBody}')
+              data.lunchTomorrow = "Something went wrong."
             else
               try
                 body = JSON.parse resBody
@@ -213,7 +216,7 @@ class HTTPJob extends Job
           .get() (err, res, body) ->
             if (err || res.statusCode != 200)
               console.log("Anni res err:", res.statusCode, body)
-              anniUsers = "Anniversaries Error: #{err}"
+              anniUsers = "Something went wrong."
             else
               console.log("Anni res body:", body)
               if body.length > 0 && body != "null"
@@ -237,7 +240,7 @@ class HTTPJob extends Job
           .get() (err, res, body) ->
             if (err || res.statusCode != 200)
               console.log("Birthday res err:", res.statusCode, body)
-              birtUsers = "Birthday Error: #{err}"
+              birtUsers = "Something went wrong."
             else
               console.log("Birthday res body:",body)
               if body.length > 0 && body != "null"
