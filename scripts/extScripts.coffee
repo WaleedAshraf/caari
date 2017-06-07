@@ -52,6 +52,16 @@ module.exports = (robot) ->
 		  return msg.send err
 		msg.send "Channel Added!"
 
+	robot.respond /channel add manual (.+) (.+)$/i, (msg) ->
+		channelName = msg.match[1]
+		channelID = msg.match[2]
+		console.log "Starting channel add: #{channelID} : #{channelName}"
+		try
+		  robot.brain.set channelID, channelName
+		catch err
+		  return msg.send err
+		msg.send "Channel Added!"
+
 	robot.respond /channel remove (.+)$/i, (msg) ->
 		channelID = msg.match[1]
 		console.log "Starting channel remove: #{channelID}"
