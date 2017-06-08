@@ -71,6 +71,8 @@ module.exports = (robot) ->
 								console.log('all channels added')
 		catch e
 			console.log("Got channels update exception", e)
+			robot.send "Error"
+		robot.send "Updated"
 
 	robot.respond /channel remove (.+)$/i, (msg) ->
 		channelID = msg.match[1]
