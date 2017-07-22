@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#	hubot leave status - Send leaves status email to user.
+#		hubot leave status - Send leaves status email to user.
 #   hubot leave employee update - Update employee record.
 #
 # Author:
