@@ -38,55 +38,55 @@ module.exports = (robot) ->
 			lunchMsg = {
 					    "attachments": [
 					        {
-					            "color": "#F35A00",
-					            "author_name": "caari",					    
-					            "title": "Lunch Alert",
-					            "text": "There is no sincerer love than the love of food!",
-					            "fields": [
-					                {
-					                    "title":"Old: #{body.Old.Title}",
-					                    "value":null,
-					                    "short":true
-					                },
-					                {
-					                    "title": "New: #{body.New.Title}",
-					                    "value": null,
-					                    "short": true
-					                },
-					                {
-					                    "title": "Main Dish",
-					                    "value": body.Old.MainDish,
-					                    "short": true
-					                },
-					                {
-					                    "title": "Main Dish",
-					                    "value": body.New.MainDish,
-					                    "short": true
-					                },
-					                {
-					                    "title": "Sec Dish",
-					                    "value": body.Old.SecondaryDish,
-					                    "short": true
-					                },
-					                {
-					                    "title": "Sec Dish",
-					                    "value": body.New.SecondaryDish,
-					                    "short": true
-					                },
-					                {
-					                    "title": "Dessert",
-					                    "value": body.Old.Dessert,
-					                    "short": true
-					                },
-					                {
-					                    "title": "Dessert",
-					                    "value": body.New.Dessert,
-					                    "short": true
-					                }
-					            ]
+                    "color": "#F35A00",
+                    "author_name": "caari",					    
+                    "title": "Lunch Alert",
+                    "text": "There is no sincerer love than the love of food!",
+                    "fields": [
+                      {
+                          "title":"Old: #{body.Old.Title}",
+                          "value":null,
+                          "short":true
+                      },
+                      {
+                          "title": "New: #{body.New.Title}",
+                          "value": null,
+                          "short": true
+                      },
+                      {
+                          "title": "Main Dish",
+                          "value": body.Old.MainDish,
+                          "short": true
+                      },
+                      {
+                          "title": "Main Dish",
+                          "value": body.New.MainDish,
+                          "short": true
+                      },
+                      {
+                          "title": "Sec Dish",
+                          "value": body.Old.SecondaryDish,
+                          "short": true
+                      },
+                      {
+                          "title": "Sec Dish",
+                          "value": body.New.SecondaryDish,
+                          "short": true
+                      },
+                      {
+                          "title": "Dessert",
+                          "value": body.Old.Dessert,
+                          "short": true
+                      },
+                      {
+                          "title": "Dessert",
+                          "value": body.New.Dessert,
+                          "short": true
+                      }
+                    ]
 					        }
 					    ]
-					}
+			}
 		catch
 			lunchMsg = body
 		msg.send lunchMsg
@@ -154,26 +154,27 @@ module.exports = (robot) ->
 		date = today(0);
 		menu = robot.http(lunch + date)
 			.get() (err, res, resBody) ->       
-			    if err
-			      data.lunchToday = "Lunch Error: #{err}"
-			    else
-			      try
-			        body = JSON.parse resBody
-			      catch err
-			        body = resBody
-			      data.lunchToday = body
-
+				if (err || res.statusCode != 200)
+					console.log("ERROR: #{resBody}")
+					data.lunchToday = "Something went wrong."
+				else
+          try
+            body = JSON.parse resBody
+          catch err
+            body = resBody
+          data.lunchToday = body
 		date = today(1);
 		menu = robot.http(lunch + date)
 			.get() (err, res, resBody) ->       
-			    if err
-			      data.lunchTomorrow = "Lunch Error: #{err}"
+			    if (err || res.statusCode != 200)
+            console.log("ERROR: #{resBody}")
+            data.lunchTomorrow = "Something went wrong."
 			    else
-			      try
-			        body = JSON.parse resBody
-			      catch err
-			        body = resBody
-			      data.lunchTomorrow = body
+            try
+              body = JSON.parse resBody
+            catch err
+              body = resBody
+            data.lunchTomorrow = body
 	    msg.send "Menu Updated!"
 
 	robot.respond /lunch review (new|old) ([1-5]|[1-5]\.[0-9])$/i,(msg)->
@@ -184,8 +185,9 @@ module.exports = (robot) ->
 		if(checkUser(userName))
 			menu = robot.http( "#{lunchReview}?date=#{date}&menuType=#{menuType}&score=#{score}")
 				.post() (err, res, resBody) ->       
-					if err
-						msg.send "#{err}";
+					if (err || res.statusCode != 200)
+						console.log("ERROR: #{resBody}")
+						msg.send "Something went wrong.";
 					else
 						perct = (resBody*20).toFixed(2);
 						totalScore = (resBody*1).toFixed(2);
@@ -214,4 +216,3 @@ module.exports = (robot) ->
 			return true;
 		catch
 			return false;
-  	

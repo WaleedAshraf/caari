@@ -54,10 +54,46 @@
    <!-- favicons
 	================================================== -->
 	<link rel="icon" type="image/png" href="/images/favicon.png">
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
+		ga('create', 'UA-74330031-2', 'auto');
+		ga('send', 'pageview');
+	</script>
 </head>
-
 <body id="top">
+
+	<script>
+		window.fbAsyncInit = function() {
+			FB.init({
+				appId      : '330547883970820',
+				xfbml      : true,
+				version    : 'v2.8'
+			});
+			FB.AppEvents.logPageView();
+		};
+
+		function logEvent(param) {
+			FB.init({
+				appId      : '330547883970820',
+				xfbml      : true,
+				version    : 'v2.8'
+			});
+			FB.AppEvents.logEvent(param);
+		}
+
+		(function(d, s, id){
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id)) {return;}
+			js = d.createElement(s); js.id = id;
+			js.src = "//connect.facebook.net/en_US/sdk.js";
+			fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+	</script>
+	
 
 	<!-- header 
    ================================================== -->
@@ -71,9 +107,10 @@
 
 		<div class="social-links">
 		   <ul>
-				<li><a href="https://www.facebook.com/caarithebot/"><i class="fa fa-facebook"></i></a></li>
-				<li><a href="https://twitter.com/caarithebot"><i class="fa fa-twitter"></i></a></li>
-				<li><a href="https://www.instagram.com/caarithebot/"><i class="fa fa-instagram"></i></a></li> 
+			 	<li id="top-github"><a href="https://github.com/WaleedAshraf/caari"><i class="fa fa-github"></i></a></li>
+				<li id="top-fa"><a href="https://www.facebook.com/caarithebot/"><i class="fa fa-facebook"></i></a></li>
+				<li id="top-twit"><a href="https://twitter.com/caarithebot"><i class="fa fa-twitter"></i></a></li>
+				<li id="top-insta"><a href="https://www.instagram.com/caarithebot/"><i class="fa fa-instagram"></i></a></li> 
 			</ul>
 		</div>
    	</div> 
@@ -141,8 +178,8 @@
    		<div class="col-twelve tabs-wrap">
 
    			<ul class="tabs"> 
-   				<li class="active" data-id="tab-about"><i class="icon-user"></i><span>About</span></li>
-   				<li data-id="tab-contact"><i class="icon-mail"></i><span>Contact</span></li>			
+   				<li class="active" data-id="tab-about" id="about-click"><i class="icon-user"></i><span>About</span></li>
+   				<li data-id="tab-contact" id="contact-click"><i class="icon-mail"></i><span>Contact</span></li>			
 				</ul> <!-- /tabs -->
 
 				<div class="tab-container">
@@ -182,7 +219,7 @@
 					   			<h1>Get In Touch.</h1>
 
 					   			<p class="lead">Want something? Mail me at </br>
-					   				<a href="mailto:hy@caari.io?Subject=Hello" target="_top">hy@caari.io</a>
+					   				<a href="mailto:hy@caari.io?Subject=Hello" target="_top" id="mail-click">hy@caari.io</a>
 					   			</p>
 
 					   		</div>   		
@@ -206,12 +243,12 @@
 
    	<div class="social-wrap">
    		<div class="row">
-				
-	         <ul class="footer-social-list">
-	            <li><a href="https://www.facebook.com/caarithebot/"><i class="fa fa-facebook"></i></a></li>
-				<li><a href="https://twitter.com/caarithebot"><i class="fa fa-twitter"></i></a></li>
-				<li><a href="https://www.instagram.com/caarithebot/"><i class="fa fa-instagram"></i></a></li> 
-	         </ul>
+				<ul class="footer-social-list">
+					<li id="bottom-github"><a href="https://github.com/WaleedAshraf/caari"><i class="fa fa-github"></i></a></li>
+					<li id="bottom-fa"><a href="https://www.facebook.com/caarithebot/"><i class="fa fa-facebook"></i></a></li>
+					<li id="bottom-twit"><a href="https://twitter.com/caarithebot"><i class="fa fa-twitter"></i></a></li>
+					<li id="bottom-insta"><a href="https://www.instagram.com/caarithebot/"><i class="fa fa-instagram"></i></a></li> 
+				</ul>
 	         
 			</div> <!-- /row -->
    	</div> <!-- /social-wrap -->
@@ -224,13 +261,13 @@
 
    		<div class="copyright">
 		     	<span>© Copyright caari 2016.</span> 
-		     	<span>Design by <a href="https://www.waleedashraf.me/">Waleed Ashraf</a></span>		         	
+		     	<span id="site-click">Design by <a href="https://www.waleedashraf.me/">Waleed Ashraf</a></span>		         	
 		   </div>		   
 
    	</div> <!-- /footer-bottom -->
 
    	<div class="back-to-top">
-		 	<a href="#top" class="smoothscroll"><span>Back to Top</span></a>
+		 	<a href="#top" class="smoothscroll" id="back-to-top"><span>Back to Top</span></a>
 		</div>
 
    </footer>
@@ -248,3 +285,18 @@
 </body>
 
 </html>
+<script>
+	$('#top-github').click(function() { logEvent('TopGitButton'); });
+	$('#top-fa').click(function() { logEvent('TopFaButton'); });
+	$('#top-twit').click(function() { logEvent('TopTwitButton'); });
+	$('#top-insta').click(function() { logEvent('TopInstaButton'); });
+	$('#about-click').click(function() { logEvent('about-clic'); });
+	$('#contact-click').click(function() { logEvent('contact-click'); });
+	$('#mail-click').click(function() { logEvent('mail-click'); });
+	$('#site-click').click(function() { logEvent('site-click'); });
+	$('#bottom-github').click(function() { logEvent('BottomGitButton'); });
+	$('#bottom-fa').click(function() { logEvent('BottomFaButton'); });
+	$('#bottom-twit').click(function() { logEvent('BottomTwitButton'); });
+	$('#bottom-insta').click(function() { logEvent('BottomInstaButton'); });
+	$('#back-to-top').click(function() { logEvent('back-to-top'); });
+</script>

@@ -45,8 +45,9 @@ module.exports = (robot) ->
 	robot.respond /leaves employee update/i, (msg) ->
 		robot.http(employeeData)
 			.get() (err, res, body) ->
-				if err
-					message = "ALERT! GOT ERROR"
+				if (err || res.statusCode != 200)
+					console.log("ERROR: #{body}")
+					message = "Something went wrong."
 				else
 					tempBody = JSON.parse(body)
 					data.employees = tempBody.members

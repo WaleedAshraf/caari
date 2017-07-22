@@ -24,6 +24,7 @@ require 'newrelic'
 
 adminUser = process.env.ADMIN_USER
 feedbackForm = process.env.FEEDBACK_FORM
+SLACK_TOKEN = process.env.HUBOT_SLACK_TOKEN
 
 module.exports = (robot) ->
 
@@ -51,6 +52,27 @@ module.exports = (robot) ->
 		catch err
 		  return msg.send err
 		msg.send "Channel Added!"
+
+	robot.respond /channel update all$/i, (msg) ->
+		try
+			robot.http('https://slack.com/api/channels.list?token=' + SLACK_TOKEN)
+				.post() (err, res, body) ->
+					if (err || res.statusCode != 200)
+						console.log("Channel update err", res.statusCode, body)
+					else
+						console.log("Got channel update res", res.statusCode)
+						if body.length > 0 && body != "null"
+							body = JSON.parse body
+							channels = body.channels
+							if channels.length > 0
+								for c in channels
+									console.log('added channel' + c.id + ' : ' + c.name)
+									robot.brain.set c.id, c.name
+								console.log('all channels added')
+		catch e
+			console.log("Got channels update exception", e)
+			robot.send "Error"
+		robot.send "Updated"
 
 	robot.respond /channel remove (.+)$/i, (msg) ->
 		channelID = msg.match[1]
