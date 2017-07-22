@@ -11,7 +11,7 @@
 #   hubot docs outpatient form - Sends outpatient form
 #   hubot docs outpatient policy - Sends outpatient policy
 #   hubot docs inpatient policy - Sends inpatient form
-#   hubot docs docs askari insurance - Sends askari insurance portal link
+#   hubot docs askari insurance - Sends askari insurance portal link
 #   hubot docs employee handbook - Sends employee handbook doc
 #   hubot docs reimb form - Sends reimbursement form
 #   hubot docs reimbursement form - Sends reimbursement form
