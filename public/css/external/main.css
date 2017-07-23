@@ -1260,6 +1260,18 @@ header .social-links ul li a:focus {
 	}
 }
 
+/* ===================================================================
+ * 9.5. details - (_layout.scss)
+ *
+ * ------------------------------------------------------------------- */
+
+.int-image {
+  max-height: 530px;
+}
+
+.int-heading {
+  color: #fff;
+}
 
 /* ===================================================================
  * 10. info - (_layout.scss)
@@ -1342,7 +1354,7 @@ header .social-links ul li a:focus {
 	display: none;
 }
 #info .tabs-wrap .tab-entry-intro {
-	max-width: 700px;
+	max-width: 740px;
 	text-align: center;
 	margin-left: auto;
 	margin-right: auto;
@@ -1729,7 +1741,7 @@ footer {
 }
 
 footer .social-wrap {
-	background: #151515;
+	background: #333333;
 	margin-bottom: 4.8rem;
 }
 
@@ -1912,4 +1924,8 @@ footer .back-to-top a i {
 	footer .back-to-top a {
 		padding: 1.2rem 2.3rem 1.5rem;
 	}
+}
+
+.heart {
+  max-width: 15px;
 }
