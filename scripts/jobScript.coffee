@@ -87,6 +87,7 @@ class HTTPJob extends Job
     data = robot.brain.data
     wishAnni = process.env.WISH_ANNI
     wishBirt = process.env.WISH_BIRT
+    MAIN_ROOM = process.env.MAIN_ROOM
 
     if message is 'STAT JOB'
       console.log('JOB: STAT JOB');
@@ -206,12 +207,13 @@ class HTTPJob extends Job
           return members[n].name
       return false
 
-    anniWish = () ->
-      anniNum = if anniNum < anniversaryWish.length - 1 then anniNum + 1 else 0
+    anniWish = (tz) ->
+      anniNum = Math.floor(Math.random() * (anniversaryWish.length - 0)) + 0
       anniUsers = ":balloon: :confetti_ball: :samosa: " + anniversaryWish[anniNum]
-      date = today(0);
+      date = today(0)
+      office = '&office=' + tz
       try
-        console.log("Anni url is: " + wishAnni + date);
+        console.log("Anni url is: " + wishAnni + date + office);
         robot.http(wishAnni + date)
           .get() (err, res, body) ->
             if (err || res.statusCode != 200)
@@ -225,17 +227,18 @@ class HTTPJob extends Job
                   for n of body
                     name = if getUser(body[n].email) then ', @' + getUser(body[n].email) else ', @' + body[n].name
                     anniUsers = anniUsers.concat name
-                  robot.messageRoom commonRoom,anniUsers
+                  robot.messageRoom MAIN_ROOM,anniUsers
       catch e
         console.log("Got Anni exception",e)
 
-    if message is 'WISHES'
+    birthWish = (tz) ->
       console.log('JOB: WISHES');
-      date = today(0);
-      birthdayNum = if birthdayNum < birthdayWish.length - 1 then birthdayNum + 1 else 0
+      date = today(0)
+      office = '&office=' + tz
+      birthdayNum = Math.floor(Math.random() * (birthdayWish.length - 0)) + 0
       birtUsers = ":cake: :samosa: :birthday: " + birthdayWish[birthdayNum]
       try
-        console.log("Birth url is: " + wishBirt + date);
+        console.log("Birth url is: " + wishBirt + date + office);
         robot.http(wishBirt + date)
           .get() (err, res, body) ->
             if (err || res.statusCode != 200)
@@ -249,10 +252,18 @@ class HTTPJob extends Job
                   for n of body
                     name = if getUser(body[n].email) then ', @' + getUser(body[n].email) else ', @' + body[n].name
                     birtUsers = birtUsers.concat name
-                  robot.messageRoom commonRoom,birtUsers
+                  robot.messageRoom MAIN_ROOM,birtUsers
       catch e
         console.log("Got birthday exception",e)
-      anniWish()
+      anniWish(tz)
+    
+    if message is 'WISHESUS'
+      console.log('JOB: WISHESUS');
+      birthWish('US')
+    
+    if message is 'WISHES'
+      console.log('JOB: WISHES');
+      birthWish('PK')
     
     if message is 'CLEAR TRAVIS BUILDS'
       console.log('JOB: CLEAR TRAVIS BUILDS');
