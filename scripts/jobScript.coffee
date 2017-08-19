@@ -214,7 +214,7 @@ class HTTPJob extends Job
       office = '&office=' + tz
       try
         console.log("Anni url is: " + wishAnni + date + office);
-        robot.http(wishAnni + date)
+        robot.http(wishAnni + date + office)
           .get() (err, res, body) ->
             if (err || res.statusCode != 200)
               console.log("Anni res err:", res.statusCode, body)
@@ -239,7 +239,7 @@ class HTTPJob extends Job
       birtUsers = ":cake: :samosa: :birthday: " + birthdayWish[birthdayNum]
       try
         console.log("Birth url is: " + wishBirt + date + office);
-        robot.http(wishBirt + date)
+        robot.http(wishBirt + date + office)
           .get() (err, res, body) ->
             if (err || res.statusCode != 200)
               console.log("Birthday res err:", res.statusCode, body)
