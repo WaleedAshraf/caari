@@ -61,7 +61,7 @@ module.exports = (robot) ->
     output = _.map matches, (tz) -> formatOutput(timestamp, tz)
     msg.reply '```' + output.join('\n') + '```'
 
-  robot.hear /(^|\s)\d{10}\b/ig, (msg) ->
+  robot.hear /(^|\s)[+-]?\d{10}\b/ig, (msg) ->
     negative = '^@?'+msg.robot.name+':?\\s+ts';
     return if new RegExp(negative, 'i').test(msg.message.text);
     timestamps = msg.match
