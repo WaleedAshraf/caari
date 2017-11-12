@@ -189,21 +189,24 @@
 	/*----------------------------------------------------*/
 	/* Final Countdown Settings
 	------------------------------------------------------ */
-	var finalDate = '2017/10/01';
 
-	$('div#counter').countdown(finalDate)
-		.on('update.countdown', function (event) {
+	function getOneMonth() {
+		return new Date.gettime() + (30 * 24 * 60 * 60 * 1000);
+	}
 
-			$(this).html(event.strftime('<div class=\"half\">' +
-				'<span>%D <sup>days</sup></span>' +
-				'<span>%H <sup>hours</sup></span>' +
-				'</div>' +
-				'<div class=\"half\">' +
-				'<span>%M <sup>mins</sup></span>' +
-				'<span>%S <sup>secs</sup></span>' +
-				'</div>'));
-
-		});     
- 
+	var clock = $('div#counter');
+	clock.countdown(getOneMonth())
+	.on('update.countdown', function (event) {
+		$(this).html(event.strftime('<div class=\"half\">' +
+			'<span>%D <sup>days</sup></span>' +
+			'<span>%H <sup>hours</sup></span>' +
+			'</div>' +
+			'<div class=\"half\">' +
+			'<span>%M <sup>mins</sup></span>' +
+			'<span>%S <sup>secs</sup></span>' +
+			'</div>'));
+	}).on('finish.countdown', function (event) {
+		clock.countdown(getOneMonth());
+	});
 
 })(jQuery);
