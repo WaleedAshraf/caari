@@ -191,7 +191,7 @@
 	------------------------------------------------------ */
 
 	function getOneMonth() {
-		return new Date.gettime() + (30 * 24 * 60 * 60 * 1000);
+		return new Date().getTime() + (30 * 24 * 60 * 60 * 1000);
 	}
 
 	var clock = $('div#counter');
