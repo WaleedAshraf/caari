@@ -89,6 +89,63 @@ class HTTPJob extends Job
     wishBirt = process.env.WISH_BIRT
     MAIN_ROOM = process.env.MAIN_ROOM
 
+    getUser = (email) ->
+      members = robot.brain.data.employees
+      for n of members
+        if (members[n].profile.email == email)
+          return members[n].name
+      return false
+
+    anniWish = (tz) ->
+      anniNum = Math.floor(Math.random() * (anniversaryWish.length - 0)) + 0
+      anniUsers = ":balloon: :confetti_ball: :samosa: " + anniversaryWish[anniNum]
+      date = today(0)
+      office = '&office=' + tz
+      try
+        console.log("Anni url is: " + wishAnni + date + office);
+        robot.http(wishAnni + date + office)
+          .get() (err, res, body) ->
+            if (err || !res ||res.statusCode != 200)
+              console.log("Anni res err:", res.statusCode, body)
+              anniUsers = "Something went wrong."
+            else
+              console.log("Anni res body:", body)
+              if body.length > 0 && body != "null"
+                body = JSON.parse(body)
+                if body.length > 0
+                  for n of body
+                    name = if getUser(body[n].email) then ', @' + getUser(body[n].email) else ', @' + body[n].name
+                    anniUsers = anniUsers.concat name
+                  robot.messageRoom MAIN_ROOM,anniUsers
+      catch e
+        console.log("Got Anni exception",e)
+
+    birthWish = (tz) ->
+      console.log('JOB: WISHES');
+      date = today(0)
+      office = '&office=' + tz
+      birthdayNum = Math.floor(Math.random() * (birthdayWish.length - 0)) + 0
+      birtUsers = ":cake: :samosa: :birthday: " + birthdayWish[birthdayNum]
+      try
+        console.log("Birth url is: " + wishBirt + date + office);
+        robot.http(wishBirt + date + office)
+          .get() (err, res, body) ->
+            if (err || !res || res.statusCode != 200)
+              console.log("Birthday res err:", res.statusCode, body)
+              birtUsers = "Something went wrong."
+            else
+              console.log("Birthday res body:",body)
+              if body.length > 0 && body != "null"
+                body = JSON.parse(body)
+                if body.length > 0
+                  for n of body
+                    name = if getUser(body[n].email) then ', @' + getUser(body[n].email) else ', @' + body[n].name
+                    birtUsers = birtUsers.concat name
+                  robot.messageRoom MAIN_ROOM,birtUsers
+            anniWish(tz)
+      catch e
+        console.log("Got birthday exception", e)
+    
     if message is 'STAT JOB'
       console.log('JOB: STAT JOB');
       robot.http(statsGit)
@@ -100,7 +157,7 @@ class HTTPJob extends Job
           msg = "Github Status: #{res.statusCode}"
         robot.send envelope, msg
 
-    if message is 'LUNCH JOB'
+    else if message is 'LUNCH JOB'
       console.log('JOB: LUNCH JOB');
       date = today(0);
       console.log('Lunch url is:', lunch + date)
@@ -131,7 +188,7 @@ class HTTPJob extends Job
               data.lunchTomorrow = body
       robot.send envelope, "lunch updated"
 
-    if message is 'LUNCH TODAY'
+    else if message is 'LUNCH TODAY'
       console.log('JOB: LUNCH TODAY');
       body = data.lunchToday
       foodNum = if foodNum < food.length - 1 then foodNum + 1 else 0
@@ -195,79 +252,25 @@ class HTTPJob extends Job
         lunchMsg = body
       robot.messageRoom commonRoom,lunchMsg
 
-    if message is 'CLEAR REVIEW USERS'
+    else if message is 'CLEAR REVIEW USERS'
       console.log('JOB: CLEAR REVIEW USERS')
       data.reviewUsers = [];
       robot.send envelope, "REVIEW USERS cleared!"
-
-    getUser = (email) ->
-      members = robot.brain.data.employees
-      for n of members
-        if (members[n].profile.email == email)
-          return members[n].name
-      return false
-
-    anniWish = (tz) ->
-      anniNum = Math.floor(Math.random() * (anniversaryWish.length - 0)) + 0
-      anniUsers = ":balloon: :confetti_ball: :samosa: " + anniversaryWish[anniNum]
-      date = today(0)
-      office = '&office=' + tz
-      try
-        console.log("Anni url is: " + wishAnni + date + office);
-        robot.http(wishAnni + date + office)
-          .get() (err, res, body) ->
-            if (err || res.statusCode != 200)
-              console.log("Anni res err:", res.statusCode, body)
-              anniUsers = "Something went wrong."
-            else
-              console.log("Anni res body:", body)
-              if body.length > 0 && body != "null"
-                body = JSON.parse(body)
-                if body.length > 0
-                  for n of body
-                    name = if getUser(body[n].email) then ', @' + getUser(body[n].email) else ', @' + body[n].name
-                    anniUsers = anniUsers.concat name
-                  robot.messageRoom MAIN_ROOM,anniUsers
-      catch e
-        console.log("Got Anni exception",e)
-
-    birthWish = (tz) ->
-      console.log('JOB: WISHES');
-      date = today(0)
-      office = '&office=' + tz
-      birthdayNum = Math.floor(Math.random() * (birthdayWish.length - 0)) + 0
-      birtUsers = ":cake: :samosa: :birthday: " + birthdayWish[birthdayNum]
-      try
-        console.log("Birth url is: " + wishBirt + date + office);
-        robot.http(wishBirt + date + office)
-          .get() (err, res, body) ->
-            if (err || res.statusCode != 200)
-              console.log("Birthday res err:", res.statusCode, body)
-              birtUsers = "Something went wrong."
-            else
-              console.log("Birthday res body:",body)
-              if body.length > 0 && body != "null"
-                body = JSON.parse(body)
-                if body.length > 0
-                  for n of body
-                    name = if getUser(body[n].email) then ', @' + getUser(body[n].email) else ', @' + body[n].name
-                    birtUsers = birtUsers.concat name
-                  robot.messageRoom MAIN_ROOM,birtUsers
-      catch e
-        console.log("Got birthday exception",e)
-      anniWish(tz)
     
-    if message is 'WISHESUS'
+    else if message is 'WISHESUS'
       console.log('JOB: WISHESUS');
       birthWish('US')
     
-    if message is 'WISHES'
+    else if message is 'WISHES'
       console.log('JOB: WISHES');
       birthWish('PK')
     
-    if message is 'CLEAR TRAVIS BUILDS'
+    else if message is 'CLEAR TRAVIS BUILDS'
       console.log('JOB: CLEAR TRAVIS BUILDS');
       data.builds = {}
+    
+    else
+     robot.send envelope, message
     
 module.exports = (robot) ->
   scheduler = new Scheduler({robot, storeKey, job: HTTPJob})
