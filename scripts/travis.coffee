@@ -13,7 +13,6 @@
 moment = require 'moment-timezone'
 travisRoom = process.env.TRAVIS_CHANNEL
 adminUser = process.env.ADMIN_USER
-secretChannelPM = process.env.SECRET_CHANNEL_PM
 
 checkStatus = (p) ->
   if p.result == 1 || p.status == 1
@@ -73,8 +72,6 @@ module.exports = (robot) ->
       delete data.builds[key]
       console.log("deleting key after message");
       console.log('buildMessage:', buildMessage);
-      if difference.as('minutes') < 11
-        robot.messageRoom secretChannelPM,buildMessage
       robot.messageRoom travisRoom,buildMessage
     else
       if checkStatus(p) && !checkCancel(p)
