@@ -20,6 +20,8 @@ uhh_what = [
 	"Both hold a special place in my heart"
 	]
 
+require 'newrelic'
+
 adminUser = process.env.ADMIN_USER
 feedbackForm = process.env.FEEDBACK_FORM
 SLACK_TOKEN = process.env.HUBOT_SLACK_TOKEN

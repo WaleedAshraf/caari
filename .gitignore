@@ -5,4 +5,5 @@ dump.rdb
 .env
 .vscode/settings.json
 
+package-lock.json
 newrelic_agent.log
