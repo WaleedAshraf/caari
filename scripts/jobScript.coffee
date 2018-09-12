@@ -84,6 +84,7 @@ class HTTPJob extends Job
     statsPlan = process.env.STATS_PLANIO
     lunch = process.env.LUNCH
     commonRoom = process.env.COMMON_ROOM
+    lunchFeebackChannel = process.env.LUNCH_FEEDBACK_CHANNEL
     data = robot.brain.data
     wishAnni = process.env.WISH_ANNI
     wishBirt = process.env.WISH_BIRT
@@ -250,7 +251,7 @@ class HTTPJob extends Job
           }
       catch
         lunchMsg = body
-      robot.messageRoom commonRoom,lunchMsg
+      robot.messageRoom lunchFeebackChannel,lunchMsg
 
     else if message is 'CLEAR REVIEW USERS'
       console.log('JOB: CLEAR REVIEW USERS')
